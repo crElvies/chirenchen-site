@@ -8,6 +8,7 @@
   const wechat = "Cr9x0819";
   let latestPlanText = "";
   const orderKey = "chirenchen_current_order_v1";
+  const checklistKey = "chirenchen_free_checklist_v1";
 
   function makeOrderId() {
     // 订单号格式：CRC + 年月日时分秒 + 4位随机数，纯前端占位用于人工对单
@@ -46,6 +47,8 @@
     const bmi = w / Math.pow(h / 100, 2);
     const p = (g === "增肌" ? 2.0 : 1.8) * w;
     const f = (g === "减脂" ? 0.8 : 0.9) * w;
+    const k = g === "增肌" ? 35 * w + 300 : g === "减脂" ? 30 * w - 400 : 32 * w;
+    const c = (k - p * 4 - f * 9) / 4;
 
     latestPlanText =
 `【吃人陈｜个人执行方案】
@@ -56,9 +59,10 @@
 BMI：${bmi.toFixed(1)}
 
 一、每日营养建议（基础）
+- 热量：${k.toFixed(0)} kcal
 - 蛋白质：${p.toFixed(1)} g
 - 脂肪：${f.toFixed(1)} g
-- 碳水：按训练日与体重趋势微调
+- 碳水：${Math.max(0, c).toFixed(1)} g
 
 二、训练建议
 - 每周 3-4 次力量训练（每动作 3 组 × 8-12 次）
@@ -74,6 +78,25 @@ BMI：${bmi.toFixed(1)}
 如需 7 天详细饮食+训练逐日版，请联系微信：${wechat}
 `;
     output.textContent = latestPlanText;
+  }
+
+  function initChecklist() {
+    const wrap = $("freeChecklist");
+    if (!wrap) return;
+    let checkedMap = {};
+    try {
+      checkedMap = JSON.parse(localStorage.getItem(checklistKey) || "{}");
+    } catch (e) {
+      checkedMap = {};
+    }
+    const boxes = Array.from(wrap.querySelectorAll("input[type='checkbox']"));
+    boxes.forEach((box) => {
+      box.checked = Boolean(checkedMap[box.value]);
+      box.addEventListener("change", () => {
+        checkedMap[box.value] = box.checked;
+        localStorage.setItem(checklistKey, JSON.stringify(checkedMap));
+      });
+    });
   }
 
   function exportPlan() {
@@ -141,5 +164,6 @@ BMI：${bmi.toFixed(1)}
 
   // 初始化显示历史订单号
   setOrderId(getOrderId());
+  initChecklist();
 })();
 

@@ -29,6 +29,17 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
 .pay-panel img{width:100%;max-width:420px;border-radius:12px;border:1px solid var(--line);display:block}
 .order-box{margin-top:10px;border:1px dashed #c4b5fd;background:#faf5ff;border-radius:12px;padding:10px}
 #orderId{font-weight:1000;color:#5b21b6}
+.free-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.free-item{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fcfcff}
+.free-item summary{cursor:pointer;font-weight:900;color:#1e293b}
+.free-item p,.free-item ul{margin:8px 0 0}
+.free-item ul{padding-left:18px}
+.free-item li{margin:4px 0;color:#334155}
+.checklist-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.checklist-grid label{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px;background:#fff;color:#334155;font-size:13px;font-weight:700}
+.checklist-grid input{width:16px;height:16px;min-height:auto;margin-top:2px}
+.week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.week-item{border:1px solid #ddd6fe;background:#faf5ff;border-radius:10px;padding:10px;font-size:13px;color:#4c1d95;font-weight:800}
 @media (max-width:700px){
   .grid{grid-template-columns:1fr}
   .btn{width:100%}
@@ -41,6 +52,9 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .pay-tabs{display:grid;grid-template-columns:1fr 1fr}
   .pay-panel img{max-width:100%}
   .output{min-height:100px;font-size:13px}
+  .free-grid{grid-template-columns:1fr}
+  .checklist-grid{grid-template-columns:1fr 1fr}
+  .week-grid{grid-template-columns:1fr}
 }
 @media (max-width:430px){
   .topbar{position:sticky}
@@ -63,5 +77,8 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .btn{min-height:42px;padding:9px 12px;font-size:14px}
   .tab{padding:9px 8px;font-size:13px}
   .order-box{padding:9px}
+  .checklist-grid{grid-template-columns:1fr}
+  .checklist-grid label{font-size:12px}
+  .week-item{font-size:12px}
 }
 
