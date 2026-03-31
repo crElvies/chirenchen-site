@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>吃人陈｜健身饮食交互中心</title>
+  <link rel="stylesheet" href="./assets/styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero card">
+      <h1>吃人陈｜健身饮食交互中心</h1>
+      <p>已升级为可维护目录结构，并接入真实收款码支付流程。</p>
+      <div class="tags">
+        <span>品牌：吃人陈</span><span>微信：Cr9x0819</span><span>移动端优先</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>用户信息表单</h2>
+      <div class="grid">
+        <label>昵称<input id="nickname" placeholder="例如：小陈" /></label>
+        <label>身高(cm)<input id="height" type="number" value="170" /></label>
+        <label>体重(kg)<input id="weight" type="number" value="70" /></label>
+        <label>目标
+          <select id="goal">
+            <option value="减脂">减脂</option>
+            <option value="增肌">增肌</option>
+            <option value="维持">维持</option>
+          </select>
+        </label>
+      </div>
+      <div class="actions">
+        <button id="btnGenerate" class="btn primary">生成方案</button>
+        <button id="btnExport" class="btn">导出方案(.txt)</button>
+      </div>
+      <pre id="planOutput" class="output">点击“生成方案”后显示。</pre>
+    </section>
+
+    <section class="card">
+      <h2>支付流程（真实收款码）</h2>
+      <p class="muted">本地静态页无法直连官方支付接口，这里使用真实收款码 + 标准支付引导流程占位，已可实际扫码收款。</p>
+      <div class="pay-tabs">
+        <button class="tab active" data-pay="wx">微信支付</button>
+        <button class="tab" data-pay="ali">支付宝</button>
+      </div>
+
+      <div id="pay-wx" class="pay-panel active">
+        <img src="./assets/img/wechat-pay.png" alt="微信收款码" />
+      </div>
+      <div id="pay-ali" class="pay-panel">
+        <img src="./assets/img/alipay-pay.png" alt="支付宝收款码" />
+      </div>
+
+      <ol class="muted">
+        <li>用户点击“立即支付”后选择支付方式；</li>
+        <li>展示对应收款码进行扫码付款；</li>
+        <li>付款后点击“我已支付”，页面会提示：<b>已支付后加微信并发截图</b>。</li>
+      </ol>
+      <div class="order-box">
+        <div><b>当前订单编号：</b><span id="orderId">-</span></div>
+        <div class="muted">每次点击“立即支付（扫码）”会生成新订单号，并本地保存用于对单。</div>
+      </div>
+      <div class="actions">
+        <button id="btnPayNow" class="btn primary">立即支付（扫码）</button>
+        <button id="btnPaid" class="btn">我已支付</button>
+        <button id="btnCopyOrder" class="btn">复制订单号</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
+
