@@ -7,6 +7,12 @@
   <link rel="stylesheet" href="./assets/styles.css" />
 </head>
 <body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span>已上线网址：<b>https://crelvies.github.io/chirenchen-site/</b></span>
+      <span>微信：<b>Cr9x0819</b></span>
+    </div>
+  </div>
   <main class="wrap">
     <section class="hero card">
       <h1>吃人陈｜健身饮食交互中心</h1>
@@ -61,11 +67,21 @@
         <div><b>当前订单编号：</b><span id="orderId">-</span></div>
         <div class="muted">每次点击“立即支付（扫码）”会生成新订单号，并本地保存用于对单。</div>
       </div>
+      <div class="order-box">
+        <div><b>支付后请按这个格式发微信：</b></div>
+        <div class="muted">“已支付 + 订单号 + 昵称 + 支付截图”</div>
+      </div>
       <div class="actions">
         <button id="btnPayNow" class="btn primary">立即支付（扫码）</button>
         <button id="btnPaid" class="btn">我已支付</button>
         <button id="btnCopyOrder" class="btn">复制订单号</button>
       </div>
+    </section>
+    <section class="card">
+      <h2>版本信息</h2>
+      <p class="muted"><b>版本号：</b>v1.1.0</p>
+      <p class="muted"><b>更新时间：</b>2026-03-31</p>
+      <p class="muted">更新内容：上线固定栏、支付截图标准格式、订单号流程优化。</p>
     </section>
   </main>
 

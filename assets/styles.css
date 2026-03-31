@@ -4,6 +4,8 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"PingFang SC","Noto Sans SC",sans-serif}
+.topbar{position:sticky;top:0;z-index:10;background:#111827;color:#fff;border-bottom:1px solid rgba(255,255,255,.12)}
+.topbar-inner{max-width:920px;margin:0 auto;padding:8px 14px;display:flex;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:800}
 .wrap{max-width:920px;margin:0 auto;padding:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:14px;margin-bottom:12px}
 h1{margin:0 0 6px;font-size:22px}
@@ -31,5 +33,6 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .grid{grid-template-columns:1fr}
   .btn{width:100%}
   h1{font-size:20px}
+  .topbar-inner{font-size:11px}
 }
 
