@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=1.6.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=1.7.0" />
 </head>
 <body>
   <div class="topbar">
@@ -91,28 +91,30 @@
 
     <section class="card">
       <h2>01｜训练路线</h2>
-      <p class="muted">先从简单可执行开始，比追求完美更重要。</p>
-      <div class="free-grid">
-        <details class="free-item" open>
-          <summary>每周 3 天（新手优先）</summary>
-          <ul>
-            <li>Day1：全身训练（深蹲、俯卧撑、划船、平板支撑）</li>
-            <li>Day2：休息或快走 30 分钟</li>
-            <li>Day3：上半身（推、拉、肩）</li>
-            <li>Day4：休息</li>
-            <li>Day5：下半身（深蹲、硬拉、弓步）</li>
-          </ul>
-        </details>
-        <details class="free-item">
-          <summary>每周 4 天（有一定基础）</summary>
-          <ul>
-            <li>Day1：上肢推</li>
-            <li>Day2：下肢</li>
-            <li>Day3：休息</li>
-            <li>Day4：上肢拉</li>
-            <li>Day5：全身与核心</li>
-          </ul>
-        </details>
+      <p class="muted">简洁执行版：每次 30-40 分钟，持续 12 周效果最明显。</p>
+      <div class="route-grid">
+        <div class="route-card">
+          <h3>每周 3 天（新手）</h3>
+          <p><b>Mon：</b>全身（深蹲/俯卧撑/划船/核心）</p>
+          <p><b>Wed：</b>上肢（推/拉/肩）</p>
+          <p><b>Fri：</b>下肢（深蹲/硬拉/弓步）</p>
+          <p class="muted">每动作 3 组 × 8-12 次，组间休息 90-180 秒。</p>
+        </div>
+        <div class="route-card">
+          <h3>每周 4 天（进阶）</h3>
+          <p><b>Mon：</b>上肢推</p>
+          <p><b>Tue：</b>下肢</p>
+          <p><b>Thu：</b>上肢拉</p>
+          <p><b>Sat：</b>全身与核心</p>
+          <p class="muted">每周记录重量与次数，保持小幅进步。</p>
+        </div>
+        <div class="route-card">
+          <h3>有氧与恢复</h3>
+          <p><b>有氧：</b>每周 2-4 次，每次 20-30 分钟</p>
+          <p><b>恢复：</b>每天走路 7k-10k 步</p>
+          <p><b>睡眠：</b>7-8 小时</p>
+          <p class="muted">连续执行优先，生病时可减量。</p>
+        </div>
       </div>
     </section>
 
@@ -180,39 +182,39 @@
             <li>做法3：淋入蛋液成蛋花，加盐即可。</li>
           </ul>
         </details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
+          <summary>木耳鸡胸炒黄瓜</summary>
+          <ul>
+            <li>食材：鸡胸肉 200g、泡发木耳 120g、黄瓜 180g、蒜末 8g</li>
+            <li>做法1：鸡胸切片腌制，木耳焯水。</li>
+            <li>做法2：蒜末爆香，下鸡胸翻炒至变色。</li>
+            <li>做法3：加入木耳和黄瓜快炒 2-3 分钟，少盐出锅。</li>
+          </ul>
+        </details>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
+          <summary>香干芹菜牛肉丝</summary>
+          <ul>
+            <li>食材：瘦牛肉 180g、香干 120g、芹菜 180g、米饭 180g</li>
+            <li>做法1：牛肉切丝腌制，香干和芹菜切条。</li>
+            <li>做法2：先炒牛肉丝，再加入香干和芹菜。</li>
+            <li>做法3：加少量生抽调味，翻匀后配米饭。</li>
+          </ul>
+        </details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白">
+          <summary>冬瓜虾仁豆腐汤</summary>
+          <ul>
+            <li>食材：冬瓜 250g、虾仁 160g、嫩豆腐 200g、姜丝 8g</li>
+            <li>做法1：冬瓜切片，豆腐切块，虾仁去腥。</li>
+            <li>做法2：姜丝煮开水后下冬瓜和豆腐煮 5 分钟。</li>
+            <li>做法3：加入虾仁再煮 2-3 分钟，加盐即可。</li>
+          </ul>
+        </details>
       </div>
     </section>
 
     <section class="card">
       <h2>03｜采购清单</h2>
-      <h3>蛋白质（3天）</h3>
-      <div class="checklist-grid" id="freeChecklist">
-        <label><input type="checkbox" value="鸡胸肉 700g" />鸡胸肉 700g</label>
-        <label><input type="checkbox" value="去皮鸡腿肉 600g" />去皮鸡腿肉 600g</label>
-        <label><input type="checkbox" value="瘦牛肉 500g" />瘦牛肉 500g</label>
-        <label><input type="checkbox" value="虾仁 450g" />虾仁 450g</label>
-        <label><input type="checkbox" value="鸡蛋 12个（约600g）" />鸡蛋 12个（约600g）</label>
-        <label><input type="checkbox" value="嫩豆腐 600g" />嫩豆腐 600g</label>
-      </div>
-      <h3>碳水（3天）</h3>
-      <div class="checklist-grid">
-        <label><input type="checkbox" value="大米 900g" />大米 900g</label>
-        <label><input type="checkbox" value="土豆 600g" />土豆 600g</label>
-        <label><input type="checkbox" value="燕麦 300g" />燕麦 300g</label>
-        <label><input type="checkbox" value="荞麦面 300g" />荞麦面 300g</label>
-        <label><input type="checkbox" value="魔芋面 600g" />魔芋面 600g</label>
-        <label><input type="checkbox" value="南瓜 600g" />南瓜 600g</label>
-      </div>
-      <h3>脂肪与调味（3天）</h3>
-      <div class="checklist-grid">
-        <label><input type="checkbox" value="橄榄油 60g" />橄榄油 60g</label>
-        <label><input type="checkbox" value="混合坚果 90g" />混合坚果 90g</label>
-        <label><input type="checkbox" value="牛油果 2个（约300g）" />牛油果 2个（约300g）</label>
-        <label><input type="checkbox" value="低盐生抽 45ml" />低盐生抽 45ml</label>
-        <label><input type="checkbox" value="蒜姜葱合计 200g" />蒜姜葱合计 200g</label>
-        <label><input type="checkbox" value="黑胡椒+辣椒粉 各10g" />黑胡椒+辣椒粉 各10g</label>
-      </div>
-      <p class="muted">勾选状态会自动保存在本地，下次打开还能继续用。</p>
+      <p class="muted">该模块已精简移除，避免信息过载。需要个性化采购方案请使用付费版逐日清单。</p>
     </section>
 
     <section class="card">
@@ -262,6 +264,18 @@
         <details class="free-item">
           <summary>体重没变化是不是失败了？</summary>
           <p>不一定。看 2-3 周平均趋势，同时关注围度、镜子变化、力量水平和精神状态。</p>
+        </details>
+        <details class="free-item">
+          <summary>如何准确称量自己的体重？</summary>
+          <p>固定在早起上厕所后、空腹、穿同样轻薄衣物称重，用每周平均值判断变化。</p>
+        </details>
+        <details class="free-item">
+          <summary>每天吃几餐更健康？</summary>
+          <p>多数人 3 餐或 3 餐 + 1 加餐都可以，关键是总热量和营养达标，而不是餐次越多越好。</p>
+        </details>
+        <details class="free-item">
+          <summary>训练前后一定要补充蛋白吗？</summary>
+          <p>重点是全天蛋白总量够。训练前后 1-2 小时吃到蛋白会更方便恢复，但不必过度焦虑“黄金窗口”。</p>
         </details>
       </div>
     </section>
@@ -313,13 +327,13 @@
 
     <section class="card">
       <h2>版本信息</h2>
-      <p class="muted"><b>版本号：</b>v1.6.0</p>
+      <p class="muted"><b>版本号：</b>v1.7.0</p>
       <p class="muted"><b>更新时间：</b><span id="versionDate">-</span></p>
-      <p class="muted">更新内容：版本信息移至页面底部、日期自动更新、关键词付费引导修复、执行方案改为卡片化建议。</p>
+      <p class="muted">更新内容：训练路线视觉升级、采购清单内容移除、食谱新增3道菜、常见问题补充3条基础常识。</p>
     </section>
   </main>
 
-  <script src="./assets/app.js?v=1.6.0"></script>
+  <script src="./assets/app.js?v=1.7.0"></script>
 </body>
 </html>
 

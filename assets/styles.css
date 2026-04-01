@@ -52,6 +52,10 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
 .checklist-grid input{width:16px;height:16px;min-height:auto;margin-top:2px}
 .week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .week-item{border:1px solid #ddd6fe;background:#faf5ff;border-radius:10px;padding:10px;font-size:13px;color:#4c1d95;font-weight:800}
+.route-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.route-card{border:1px solid #e9d5ff;background:linear-gradient(180deg,#fff,#faf5ff);border-radius:12px;padding:12px}
+.route-card h3{margin:0 0 8px;color:#5b21b6;font-size:15px}
+.route-card p{margin:4px 0;color:#334155;font-size:13px}
 .hero-cta{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:stretch}
 .hero-cta-left h2{font-size:24px;margin-bottom:10px}
 .bullet-list p{margin:6px 0;color:#334155;font-weight:700}
@@ -64,6 +68,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .free-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .checklist-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .week-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .route-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .actions{gap:10px}
   .btn{min-width:170px}
   .advice-panel{font-size:14px;line-height:1.75}
@@ -85,6 +90,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .free-grid{grid-template-columns:1fr}
   .checklist-grid{grid-template-columns:1fr 1fr}
   .week-grid{grid-template-columns:1fr}
+  .route-grid{grid-template-columns:1fr}
   .hero-cta{grid-template-columns:1fr}
   .hero-cta-left h2{font-size:20px}
   .metrics-grid{grid-template-columns:1fr}
@@ -114,6 +120,8 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .checklist-grid{grid-template-columns:1fr}
   .checklist-grid label{font-size:12px}
   .week-item{font-size:12px}
+  .route-card h3{font-size:14px}
+  .route-card p{font-size:12px}
   .hero-cta-left h2{font-size:18px}
 }
 
