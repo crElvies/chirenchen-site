@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=1.5.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=1.6.0" />
 </head>
 <body>
   <div class="topbar">
@@ -83,11 +83,10 @@
       </div>
       <div class="actions">
         <button id="btnGenerate" class="btn primary">一键计算全部结果</button>
-        <button id="btnExport" class="btn">导出方案(.txt)</button>
       </div>
       <div id="calcResult" class="metrics-grid"></div>
       <div id="planCards" class="plan-grid"></div>
-      <pre id="planOutput" class="output">点击“一键计算全部结果”后显示文本版方案。</pre>
+      <div id="advicePanel" class="advice-panel">点击“一键计算全部结果”后，自动生成训练建议与执行提示。</div>
     </section>
 
     <section class="card">
@@ -266,13 +265,6 @@
         </details>
       </div>
     </section>
-    <section class="card">
-      <h2>版本信息</h2>
-      <p class="muted"><b>版本号：</b>v1.5.0</p>
-      <p class="muted"><b>更新时间：</b>2026-03-31</p>
-      <p class="muted">更新内容：食谱筛选标签上线、男女体脂估算输入修复、个人执行方案改为卡片化展示。</p>
-    </section>
-
     <section class="card" id="paySection">
       <h2>升级服务（付费放最后）</h2>
       <p class="muted">免费资源可先直接执行。需要更快见效、减少试错时，再升级 7 天逐日版。</p>
@@ -318,9 +310,16 @@
         <button id="btnCopyOrder" class="btn">复制订单号</button>
       </div>
     </section>
+
+    <section class="card">
+      <h2>版本信息</h2>
+      <p class="muted"><b>版本号：</b>v1.6.0</p>
+      <p class="muted"><b>更新时间：</b><span id="versionDate">-</span></p>
+      <p class="muted">更新内容：版本信息移至页面底部、日期自动更新、关键词付费引导修复、执行方案改为卡片化建议。</p>
+    </section>
   </main>
 
-  <script src="./assets/app.js?v=1.5.0"></script>
+  <script src="./assets/app.js?v=1.6.0"></script>
 </body>
 </html>
 

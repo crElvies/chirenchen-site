@@ -16,9 +16,9 @@
   const runMinutes = $("runMinutes");
   const calcResult = $("calcResult");
   const planCards = $("planCards");
-  const output = $("planOutput");
+  const advicePanel = $("advicePanel");
+  const versionDate = $("versionDate");
   const wechat = "Cr9x0819";
-  let latestPlanText = "";
   const orderKey = "chirenchen_current_order_v1";
   const checklistKey = "chirenchen_free_checklist_v2";
 
@@ -157,46 +157,10 @@
       </div>
     `;
 
-    latestPlanText =
-`【吃人陈｜个人执行方案】
-昵称：${n}
-年龄：${a}
-性别：${sex}
-身高：${h} cm
-体重：${w} kg
-目标：${g}
-BMI：${bmi.toFixed(1)}
-
-一、核心计算结果（免费版）
-- BMR：${bmr.toFixed(0)} kcal
-- TDEE：${tdee.toFixed(0)} kcal
-- 热量：${k.toFixed(0)} kcal
-- 蛋白质：${p.toFixed(1)} g
-- 脂肪：${f.toFixed(1)} g
-- 碳水：${c.toFixed(1)} g
-- 体脂率估算：${bodyFat.toFixed(1)}%
-- 1RM估算：${oneRm ? oneRm.toFixed(1) + " kg" : "未填写重量和次数"}
-- 饮水建议：${(waterMl / 1000).toFixed(2)} L/天
-- 跑步配速：${paceText}
-
-二、训练建议
-- 每周 3-4 次力量训练（每动作 3 组 × 8-12 次）
-- 每周 2-4 次有氧（20-40 分钟）
-- 每 2-3 周复盘一次并微调
-
-三、执行提示
-- 睡眠目标：7-8 小时
-- 饮水：2-3L/天（视出汗量调整）
-- 优先保证连续性，不求单次极限
-
-四、核心付费内容（解锁后交付）
-- 7天逐日克数饮食表（按你的作息与目标定制）
-- 7天逐日训练安排（动作/组次/强度进阶）
-- 平台期调整策略（热量与训练量动态修正）
-- 微信跟进答疑与复盘模板
-联系微信：${wechat}
-`;
-    output.textContent = latestPlanText;
+    const trainFreq = g === "增肌" ? "每周 4 次力量 + 2 次轻有氧" : g === "减脂" ? "每周 3 次力量 + 3 次中低强度有氧" : "每周 3-4 次力量 + 2 次有氧";
+    const progressRule = g === "增肌" ? "每周尝试给主动作增加 1-2 次或 1-2.5kg" : "每周优先保证动作质量，再增加总训练量";
+    const tip = `你好，${n}。建议你从今天开始执行：\n1) 训练建议：${trainFreq}。\n2) 力量动作保持 3 组 × 8-12 次，组间休息 90-180 秒。\n3) 有氧建议：每次 20-35 分钟，优先快走/骑行/慢跑。\n4) 执行提示：${progressRule}。\n5) 每周固定同一天晨起空腹称重，按周均值判断是否需要调热量。\n6) 睡眠保持 7-8 小时，饮水约 ${(waterMl / 1000).toFixed(2)} L/天。`;
+    advicePanel.textContent = tip;
   }
 
   function initChecklist() {
@@ -218,40 +182,40 @@ BMI：${bmi.toFixed(1)}
     });
   }
 
-  function exportPlan() {
-    if (!latestPlanText) {
-      alert("请先生成方案。");
-      return;
-    }
-    const blob = new Blob([latestPlanText], { type: "text/plain;charset=utf-8" });
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "吃人陈-个人方案.txt";
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(a.href);
-    document.body.removeChild(a);
-  }
-
   $("btnGenerate").addEventListener("click", buildPlan);
-  $("btnExport").addEventListener("click", exportPlan);
 
   function initRecipeFilter() {
     const buttons = Array.from(document.querySelectorAll(".tag-btn"));
+    const payTags = Array.from(document.querySelectorAll(".pay-tag"));
     if (!buttons.length) return;
+    payTags.forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const filter = btn.dataset.filter || "专题";
+        const id = makeOrderId();
+        setOrderId(id);
+        alert(`你点击了“${filter}”专题。\n该专题完整食谱为付费服务，请先完成支付解锁。\n订单号：${id}`);
+        const pay = document.getElementById("paySection");
+        if (pay) pay.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         buttons.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         const filter = btn.dataset.filter || "all";
         if (filter === "all") return;
-        const id = makeOrderId();
-        setOrderId(id);
-        alert(`你点击了“${filter}”专题。\n该专题的完整食谱库为付费内容，请先完成支付解锁。\n订单号：${id}`);
-        const pay = document.getElementById("paySection");
-        if (pay) pay.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
+  }
+
+  function setTodayForVersion() {
+    if (!versionDate) return;
+    const d = new Date();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    versionDate.textContent = `${d.getFullYear()}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
   // 支付方式切换
@@ -303,5 +267,6 @@ BMI：${bmi.toFixed(1)}
   setOrderId(getOrderId());
   initChecklist();
   initRecipeFilter();
+  setTodayForVersion();
 })();
 
