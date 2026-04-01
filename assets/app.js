@@ -8,12 +8,14 @@
   const activity = $("activity");
   const goal = $("goal");
   const waist = $("waist");
+  const neck = $("neck");
   const hip = $("hip");
   const liftWeight = $("liftWeight");
   const liftReps = $("liftReps");
   const runDistance = $("runDistance");
   const runMinutes = $("runMinutes");
   const calcResult = $("calcResult");
+  const planCards = $("planCards");
   const output = $("planOutput");
   const wechat = "Cr9x0819";
   let latestPlanText = "";
@@ -53,6 +55,7 @@
     const af = Number(activity.value || 1.55);
     const g = goal.value;
     const wc = Number(waist.value || 0);
+    const nc = Number(neck.value || 0);
     const hc = Number(hip.value || 0);
     const lw = Number(liftWeight.value || 0);
     const lr = Number(liftReps.value || 0);
@@ -84,12 +87,10 @@
     // 5) 体脂估算：给没有体脂秤的用户一个“方向值”，用于长期对比趋势。
     const bfByBmi = 1.2 * bmi + 0.23 * a - 10.8 * (sex === "男" ? 1 : 0) - 5.4;
     let bfNavy = null;
-    if (sex === "男" && wc > 0) {
-      const neck = 37; // 简化占位：在无颈围输入时用常见值，保持计算器可用
-      bfNavy = 495 / (1.0324 - 0.19077 * Math.log10(Math.max(1, wc - neck)) + 0.15456 * Math.log10(h)) - 450;
-    } else if (sex === "女" && wc > 0 && hc > 0) {
-      const neck = 32; // 简化占位：女性常见颈围占位，后续可升级为用户输入
-      bfNavy = 495 / (1.29579 - 0.35004 * Math.log10(Math.max(1, wc + hc - neck)) + 0.221 * Math.log10(h)) - 450;
+    if (sex === "男" && wc > 0 && nc > 0 && wc > nc) {
+      bfNavy = 495 / (1.0324 - 0.19077 * Math.log10(wc - nc) + 0.15456 * Math.log10(h)) - 450;
+    } else if (sex === "女" && wc > 0 && hc > 0 && nc > 0 && wc + hc > nc) {
+      bfNavy = 495 / (1.29579 - 0.35004 * Math.log10(wc + hc - nc) + 0.221 * Math.log10(h)) - 450;
     }
     const bodyFat = bfNavy && Number.isFinite(bfNavy) ? bfNavy : bfByBmi;
 
@@ -128,6 +129,32 @@
       <div class="metric"><b>1RM 估算</b><span>${oneRm ? oneRm.toFixed(1) + " kg" : "-"}</span></div>
       <div class="metric"><b>饮水建议</b><span>${(waterMl / 1000).toFixed(2)} L/天</span></div>
       <div class="metric"><b>跑步配速</b><span>${paceText}</span></div>
+    `;
+    planCards.innerHTML = `
+      <div class="plan-card">
+        <h3>基础代谢与热量</h3>
+        <p>BMR：${bmr.toFixed(0)} kcal</p>
+        <p>TDEE：${tdee.toFixed(0)} kcal</p>
+        <p>目标热量：${k.toFixed(0)} kcal</p>
+      </div>
+      <div class="plan-card">
+        <h3>营养分配</h3>
+        <p>蛋白质：${p.toFixed(1)} g</p>
+        <p>脂肪：${f.toFixed(1)} g</p>
+        <p>碳水：${c.toFixed(1)} g</p>
+      </div>
+      <div class="plan-card">
+        <h3>体成分与力量</h3>
+        <p>体脂率：${bodyFat.toFixed(1)}%</p>
+        <p>去脂体重：${lbm.toFixed(1)} kg</p>
+        <p>1RM：${oneRm ? oneRm.toFixed(1) + " kg" : "-"}</p>
+      </div>
+      <div class="plan-card">
+        <h3>执行建议</h3>
+        <p>饮水：${(waterMl / 1000).toFixed(2)} L/天</p>
+        <p>有氧配速：${paceText}</p>
+        <p>睡眠：7-8 小时</p>
+      </div>
     `;
 
     latestPlanText =
@@ -209,6 +236,24 @@ BMI：${bmi.toFixed(1)}
   $("btnGenerate").addEventListener("click", buildPlan);
   $("btnExport").addEventListener("click", exportPlan);
 
+  function initRecipeFilter() {
+    const buttons = Array.from(document.querySelectorAll(".tag-btn"));
+    const cards = Array.from(document.querySelectorAll(".recipe-card"));
+    if (!buttons.length || !cards.length) return;
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.dataset.filter;
+        cards.forEach((card) => {
+          const tags = String(card.dataset.tags || "");
+          const show = filter === "all" || tags.includes(filter);
+          card.style.display = show ? "block" : "none";
+        });
+      });
+    });
+  }
+
   // 支付方式切换
   const tabs = Array.from(document.querySelectorAll(".tab"));
   tabs.forEach((tab) => {
@@ -257,5 +302,6 @@ BMI：${bmi.toFixed(1)}
   // 初始化显示历史订单号
   setOrderId(getOrderId());
   initChecklist();
+  initRecipeFilter();
 })();
 

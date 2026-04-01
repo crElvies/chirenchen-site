@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=1.4.1" />
+  <link rel="stylesheet" href="./assets/styles.css?v=1.5.0" />
 </head>
 <body>
   <div class="topbar">
@@ -74,6 +74,7 @@
           </select>
         </label>
         <label>腰围(cm，体脂估算用)<input id="waist" type="number" value="82" /></label>
+        <label>颈围(cm，体脂估算用)<input id="neck" type="number" value="36" /></label>
         <label>臀围(cm，女性估算可用)<input id="hip" type="number" value="95" /></label>
         <label>单组重量(kg，1RM)<input id="liftWeight" type="number" value="60" /></label>
         <label>单组次数(次，1RM)<input id="liftReps" type="number" value="8" /></label>
@@ -85,7 +86,8 @@
         <button id="btnExport" class="btn">导出方案(.txt)</button>
       </div>
       <div id="calcResult" class="metrics-grid"></div>
-      <pre id="planOutput" class="output">点击“生成方案”后显示。</pre>
+      <div id="planCards" class="plan-grid"></div>
+      <pre id="planOutput" class="output">点击“一键计算全部结果”后显示文本版方案。</pre>
     </section>
 
     <section class="card">
@@ -117,30 +119,37 @@
 
     <section class="card">
       <h2>02｜健康食谱</h2>
+      <div class="tag-filters">
+        <button class="tag-btn active" data-filter="all">全部</button>
+        <button class="tag-btn" data-filter="增肌">增肌</button>
+        <button class="tag-btn" data-filter="减脂">减脂</button>
+        <button class="tag-btn" data-filter="高蛋白">高蛋白</button>
+        <button class="tag-btn" data-filter="低预算">低预算</button>
+      </div>
       <div class="free-grid">
-        <details class="free-item" open>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白,低预算" open>
           <summary>鸡胸肉盖饭（增肌友好）</summary>
           <ul>
             <li>食材：鸡胸肉 200g、米饭 180g、西蓝花 150g</li>
             <li>做法：鸡胸切块腌制后煎熟，西蓝花焯水，配米饭即可</li>
           </ul>
         </details>
-        <details class="free-item">
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
           <summary>番茄牛肉面（训练日补碳）</summary>
           <ul>
             <li>食材：牛肉 120g、番茄 2 个、面条 100g</li>
             <li>做法：牛肉炒香加番茄炖汤，下面煮熟后合并</li>
           </ul>
         </details>
-        <details class="free-item">
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
           <summary>鸡蛋豆腐碗（减脂友好）</summary>
           <ul>
             <li>食材：鸡蛋 2 个、嫩豆腐 200g、青菜 200g</li>
             <li>做法：鸡蛋炒熟，豆腐焯水，青菜清炒后混合</li>
           </ul>
         </details>
-        <details class="free-item">
-          <summary>单人餐 A：蒜香虾仁藜麦碗</summary>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白">
+          <summary>蒜香虾仁藜麦碗</summary>
           <ul>
             <li>食材：虾仁 180g、藜麦 70g、黄瓜 100g、玉米粒 60g、橄榄油 8g</li>
             <li>做法1：藜麦煮熟沥干，虾仁加蒜末和少量盐黑胡椒快炒。</li>
@@ -148,8 +157,8 @@
             <li>做法3：把虾仁铺在顶部，淋橄榄油即可。</li>
           </ul>
         </details>
-        <details class="free-item">
-          <summary>单人餐 B：牛肉蘑菇荞麦面</summary>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
+          <summary>牛肉蘑菇荞麦面</summary>
           <ul>
             <li>食材：瘦牛肉 150g、荞麦面 90g、蘑菇 120g、菠菜 120g、低盐生抽 10ml</li>
             <li>做法1：牛肉切片快炒至变色，蘑菇同锅翻炒。</li>
@@ -157,8 +166,8 @@
             <li>做法3：拌入菠菜和生抽，最后合并牛肉蘑菇。</li>
           </ul>
         </details>
-        <details class="free-item">
-          <summary>单人餐 C：鸡腿南瓜暖沙拉</summary>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
+          <summary>鸡腿南瓜暖沙拉</summary>
           <ul>
             <li>食材：去皮鸡腿肉 180g、南瓜 200g、生菜 120g、圣女果 100g、酸奶 40g</li>
             <li>做法1：南瓜切块蒸熟，鸡腿肉煎熟后切条。</li>
@@ -227,9 +236,9 @@
     </section>
     <section class="card">
       <h2>版本信息</h2>
-      <p class="muted"><b>版本号：</b>v1.4.1</p>
+      <p class="muted"><b>版本号：</b>v1.5.0</p>
       <p class="muted"><b>更新时间：</b>2026-03-31</p>
-      <p class="muted">更新内容：序号模块补充标题、采购清单扩容、健康单人餐新增3款并强化付费食谱权益。</p>
+      <p class="muted">更新内容：食谱筛选标签上线、男女体脂估算输入修复、个人执行方案改为卡片化展示。</p>
     </section>
 
     <section class="card" id="paySection">
@@ -279,7 +288,7 @@
     </section>
   </main>
 
-  <script src="./assets/app.js?v=1.4.1"></script>
+  <script src="./assets/app.js?v=1.5.0"></script>
 </body>
 </html>
 

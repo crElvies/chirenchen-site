@@ -25,6 +25,13 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
 .metric{border:1px solid var(--line);background:#fcfcff;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:3px}
 .metric b{font-size:12px;color:#475569}
 .metric span{font-size:15px;font-weight:900;color:#111827}
+.plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.plan-card{border:1px solid #ddd6fe;background:#faf5ff;border-radius:10px;padding:10px}
+.plan-card h3{margin:0 0 6px;font-size:14px;color:#5b21b6}
+.plan-card p{margin:2px 0;color:#334155;font-size:13px}
+.tag-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.tag-btn{border:1px solid #c4b5fd;background:#fff;color:#5b21b6;border-radius:999px;padding:6px 10px;font-weight:800;cursor:pointer}
+.tag-btn.active{background:#5b21b6;color:#fff;border-color:#5b21b6}
 .pay-tabs{display:flex;gap:8px;margin-top:8px}
 .tab{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;font-weight:900;cursor:pointer}
 .tab.active{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6}
@@ -60,6 +67,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .btn{min-width:170px}
   .output{font-size:14px;line-height:1.75}
   .metrics-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .plan-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media (max-width:700px){
   .grid{grid-template-columns:1fr}
@@ -79,6 +87,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .hero-cta{grid-template-columns:1fr}
   .hero-cta-left h2{font-size:20px}
   .metrics-grid{grid-template-columns:1fr}
+  .plan-grid{grid-template-columns:1fr}
 }
 @media (max-width:430px){
   .topbar{position:sticky}
