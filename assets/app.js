@@ -20,7 +20,7 @@
   const wechat = "Cr9x0819";
   let latestPlanText = "";
   const orderKey = "chirenchen_current_order_v1";
-  const checklistKey = "chirenchen_free_checklist_v1";
+  const checklistKey = "chirenchen_free_checklist_v2";
 
   function makeOrderId() {
     // 订单号格式：CRC + 年月日时分秒 + 4位随机数，纯前端占位用于人工对单
@@ -238,18 +238,18 @@ BMI：${bmi.toFixed(1)}
 
   function initRecipeFilter() {
     const buttons = Array.from(document.querySelectorAll(".tag-btn"));
-    const cards = Array.from(document.querySelectorAll(".recipe-card"));
-    if (!buttons.length || !cards.length) return;
+    if (!buttons.length) return;
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         buttons.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
-        const filter = btn.dataset.filter;
-        cards.forEach((card) => {
-          const tags = String(card.dataset.tags || "");
-          const show = filter === "all" || tags.includes(filter);
-          card.style.display = show ? "block" : "none";
-        });
+        const filter = btn.dataset.filter || "all";
+        if (filter === "all") return;
+        const id = makeOrderId();
+        setOrderId(id);
+        alert(`你点击了“${filter}”专题。\n该专题的完整食谱库为付费内容，请先完成支付解锁。\n订单号：${id}`);
+        const pay = document.getElementById("paySection");
+        if (pay) pay.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     });
   }
