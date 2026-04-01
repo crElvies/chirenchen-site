@@ -18,9 +18,13 @@ p{margin:6px 0;line-height:1.7}
 label{font-size:12px;color:var(--muted);font-weight:800}
 input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fff}
 .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:12px;min-height:44px;padding:10px 14px;font-weight:1000;cursor:pointer}
+.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:12px;min-height:44px;padding:10px 14px;font-weight:1000;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .btn.primary{border-color:transparent;color:#fff;background:linear-gradient(135deg,var(--brand),var(--brand2))}
 .output{white-space:pre-wrap;background:#f8fafc;border:1px dashed #c4b5fd;color:#334155;border-radius:12px;padding:10px;min-height:120px}
+.metrics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.metric{border:1px solid var(--line);background:#fcfcff;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:3px}
+.metric b{font-size:12px;color:#475569}
+.metric span{font-size:15px;font-weight:900;color:#111827}
 .pay-tabs{display:flex;gap:8px;margin-top:8px}
 .tab{border:1px solid var(--line);background:#fff;padding:8px 12px;border-radius:10px;font-weight:900;cursor:pointer}
 .tab.active{background:#f5f3ff;border-color:#c4b5fd;color:#5b21b6}
@@ -55,6 +59,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .actions{gap:10px}
   .btn{min-width:170px}
   .output{font-size:14px;line-height:1.75}
+  .metrics-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media (max-width:700px){
   .grid{grid-template-columns:1fr}
@@ -73,6 +78,7 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .week-grid{grid-template-columns:1fr}
   .hero-cta{grid-template-columns:1fr}
   .hero-cta-left h2{font-size:20px}
+  .metrics-grid{grid-template-columns:1fr}
 }
 @media (max-width:430px){
   .topbar{position:sticky}

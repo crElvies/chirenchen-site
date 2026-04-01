@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=1.3.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=1.4.0" />
 </head>
 <body>
   <div class="topbar">
@@ -45,11 +45,27 @@
     </section>
 
     <section class="card" id="userForm">
-      <h2>用户信息表单</h2>
+      <h2>用户信息 + 多功能计算器</h2>
       <div class="grid">
         <label>昵称<input id="nickname" placeholder="例如：小陈" /></label>
+        <label>年龄<input id="age" type="number" value="28" /></label>
+        <label>性别
+          <select id="gender">
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+        </label>
         <label>身高(cm)<input id="height" type="number" value="170" /></label>
         <label>体重(kg)<input id="weight" type="number" value="70" /></label>
+        <label>活动水平
+          <select id="activity">
+            <option value="1.2">久坐少动（1.2）</option>
+            <option value="1.375">轻度活动（1.375）</option>
+            <option value="1.55" selected>中度活动（1.55）</option>
+            <option value="1.725">高度活动（1.725）</option>
+            <option value="1.9">重体力/高频训练（1.9）</option>
+          </select>
+        </label>
         <label>目标
           <select id="goal">
             <option value="减脂">减脂</option>
@@ -57,16 +73,23 @@
             <option value="维持">维持</option>
           </select>
         </label>
+        <label>腰围(cm，体脂估算用)<input id="waist" type="number" value="82" /></label>
+        <label>臀围(cm，女性估算可用)<input id="hip" type="number" value="95" /></label>
+        <label>单组重量(kg，1RM)<input id="liftWeight" type="number" value="60" /></label>
+        <label>单组次数(次，1RM)<input id="liftReps" type="number" value="8" /></label>
+        <label>跑步距离(km)<input id="runDistance" type="number" value="5" /></label>
+        <label>跑步用时(分钟)<input id="runMinutes" type="number" value="30" /></label>
       </div>
       <div class="actions">
-        <button id="btnGenerate" class="btn primary">生成方案</button>
+        <button id="btnGenerate" class="btn primary">一键计算全部结果</button>
         <button id="btnExport" class="btn">导出方案(.txt)</button>
       </div>
+      <div id="calcResult" class="metrics-grid"></div>
       <pre id="planOutput" class="output">点击“生成方案”后显示。</pre>
     </section>
 
     <section class="card">
-      <h2>免费资源 1：新手训练路线（可直接照做）</h2>
+      <h2>01</h2>
       <p class="muted">先从简单可执行开始，比追求完美更重要。</p>
       <div class="free-grid">
         <details class="free-item" open>
@@ -93,7 +116,7 @@
     </section>
 
     <section class="card">
-      <h2>免费资源 2：中式实用食谱（低成本）</h2>
+      <h2>02</h2>
       <div class="free-grid">
         <details class="free-item" open>
           <summary>鸡胸肉盖饭（增肌友好）</summary>
@@ -120,7 +143,7 @@
     </section>
 
     <section class="card">
-      <h2>免费资源 3：购物清单（7 天基础版）</h2>
+      <h2>03</h2>
       <div class="checklist-grid" id="freeChecklist">
         <label><input type="checkbox" value="鸡胸肉 1.5kg" />鸡胸肉 1.5kg</label>
         <label><input type="checkbox" value="鸡蛋 30 个" />鸡蛋 30 个</label>
@@ -136,7 +159,7 @@
     </section>
 
     <section class="card">
-      <h2>免费资源 4：12 周执行打卡模板</h2>
+      <h2>04</h2>
       <div class="week-grid">
         <div class="week-item">第1-2周：建立习惯，每周完成 3 次训练</div>
         <div class="week-item">第3-4周：动作标准化，开始记录训练重量</div>
@@ -148,7 +171,7 @@
     </section>
 
     <section class="card">
-      <h2>免费资源 5：常见问题（先看这个，少走弯路）</h2>
+      <h2>05</h2>
       <div class="free-grid">
         <details class="free-item" open>
           <summary>没时间去健身房怎么办？</summary>
@@ -166,15 +189,22 @@
     </section>
     <section class="card">
       <h2>版本信息</h2>
-      <p class="muted"><b>版本号：</b>v1.3.0</p>
+      <p class="muted"><b>版本号：</b>v1.4.0</p>
       <p class="muted"><b>更新时间：</b>2026-03-31</p>
-      <p class="muted">更新内容：新增桌面端首屏营销双栏，强化“先免费后升级”引导流程。</p>
+      <p class="muted">更新内容：新增多功能计算器矩阵，核心个性化方案调整为付费解锁，并优化免费资源标题样式。</p>
     </section>
 
     <section class="card" id="paySection">
       <h2>升级服务（付费放最后）</h2>
       <p class="muted">免费资源可先直接执行。需要更快见效、减少试错时，再升级 7 天逐日版。</p>
       <p><b>你将获得：</b>每日克数饮食表、每日训练动作安排、新手纠错提示、跟进反馈建议。</p>
+      <div class="order-box">
+        <div><b>核心付费内容（重点）：</b></div>
+        <div class="muted">1) 7天逐日饮食克数表（按你个人体重/作息定制）</div>
+        <div class="muted">2) 7天逐日训练动作+组次+强度进阶表</div>
+        <div class="muted">3) 停滞期调整建议（热量/碳水/训练量如何改）</div>
+        <div class="muted">4) 每周复盘模板与微信人工答疑</div>
+      </div>
       <h2>支付流程（真实收款码）</h2>
       <p class="muted">本地静态页无法直连官方支付接口，这里使用真实收款码 + 标准支付引导流程占位，已可实际扫码收款。</p>
       <div class="pay-tabs">
@@ -210,7 +240,7 @@
     </section>
   </main>
 
-  <script src="./assets/app.js?v=1.3.0"></script>
+  <script src="./assets/app.js?v=1.4.0"></script>
 </body>
 </html>
 

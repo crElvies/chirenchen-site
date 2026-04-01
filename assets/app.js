@@ -1,9 +1,19 @@
 (function () {
   const $ = (id) => document.getElementById(id);
   const nickname = $("nickname");
+  const age = $("age");
+  const gender = $("gender");
   const height = $("height");
   const weight = $("weight");
+  const activity = $("activity");
   const goal = $("goal");
+  const waist = $("waist");
+  const hip = $("hip");
+  const liftWeight = $("liftWeight");
+  const liftReps = $("liftReps");
+  const runDistance = $("runDistance");
+  const runMinutes = $("runMinutes");
+  const calcResult = $("calcResult");
   const output = $("planOutput");
   const wechat = "Cr9x0819";
   let latestPlanText = "";
@@ -36,33 +46,111 @@
 
   function buildPlan() {
     const n = (nickname.value || "你").trim();
+    const a = Number(age.value);
+    const sex = gender.value;
     const h = Number(height.value);
     const w = Number(weight.value);
+    const af = Number(activity.value || 1.55);
     const g = goal.value;
-    if (!h || !w) {
-      alert("请先填写身高和体重。");
+    const wc = Number(waist.value || 0);
+    const hc = Number(hip.value || 0);
+    const lw = Number(liftWeight.value || 0);
+    const lr = Number(liftReps.value || 0);
+    const rd = Number(runDistance.value || 0);
+    const rm = Number(runMinutes.value || 0);
+    if (!h || !w || !a) {
+      alert("请先填写年龄、身高和体重。");
       return;
     }
 
+    // 1) BMI：最基础体重状态指标，帮助新手先判断自己是偏瘦、正常还是偏高。
     const bmi = w / Math.pow(h / 100, 2);
+    const bmiLevel = bmi < 18.5 ? "偏瘦" : bmi < 24 ? "正常" : bmi < 28 ? "超重" : "肥胖";
+
+    // 2) BMR + TDEE：借鉴主流健身站做法，先算静息代谢，再乘活动系数得到维持热量。
+    const bmr = sex === "男"
+      ? 10 * w + 6.25 * h - 5 * a + 5
+      : 10 * w + 6.25 * h - 5 * a - 161;
+    const tdee = bmr * af;
+
+    // 3) 目标热量：减脂 -400，增肌 +300，维持不变，便于直接执行。
+    const k = g === "增肌" ? tdee + 300 : g === "减脂" ? tdee - 400 : tdee;
+
+    // 4) 三大营养素：延续你前面设定的核心策略。
     const p = (g === "增肌" ? 2.0 : 1.8) * w;
     const f = (g === "减脂" ? 0.8 : 0.9) * w;
-    const k = g === "增肌" ? 35 * w + 300 : g === "减脂" ? 30 * w - 400 : 32 * w;
-    const c = (k - p * 4 - f * 9) / 4;
+    const c = Math.max(0, (k - p * 4 - f * 9) / 4);
+
+    // 5) 体脂估算：给没有体脂秤的用户一个“方向值”，用于长期对比趋势。
+    const bfByBmi = 1.2 * bmi + 0.23 * a - 10.8 * (sex === "男" ? 1 : 0) - 5.4;
+    let bfNavy = null;
+    if (sex === "男" && wc > 0) {
+      const neck = 37; // 简化占位：在无颈围输入时用常见值，保持计算器可用
+      bfNavy = 495 / (1.0324 - 0.19077 * Math.log10(Math.max(1, wc - neck)) + 0.15456 * Math.log10(h)) - 450;
+    } else if (sex === "女" && wc > 0 && hc > 0) {
+      const neck = 32; // 简化占位：女性常见颈围占位，后续可升级为用户输入
+      bfNavy = 495 / (1.29579 - 0.35004 * Math.log10(Math.max(1, wc + hc - neck)) + 0.221 * Math.log10(h)) - 450;
+    }
+    const bodyFat = bfNavy && Number.isFinite(bfNavy) ? bfNavy : bfByBmi;
+
+    // 6) 去脂体重与FFMI：帮助用户理解“体重变化里有多少是肌肉潜力相关”。
+    const lbm = w * (1 - bodyFat / 100);
+    const ffmi = lbm / Math.pow(h / 100, 2);
+
+    // 7) 目标体重区间：给用户清晰阶段目标（减脂到哪、增肌到哪）。
+    const targetMin = 18.5 * Math.pow(h / 100, 2);
+    const targetMax = 23.9 * Math.pow(h / 100, 2);
+
+    // 8) 1RM（Epley）：力量训练常用指标，估算极限力量以安排训练强度。
+    const oneRm = lw > 0 && lr > 0 ? lw * (1 + lr / 30) : 0;
+
+    // 9) 饮水建议：按体重估算，再加训练额外补水，实操价值高。
+    const waterBase = w * 35;
+    const waterTrain = g === "增肌" ? 600 : 400;
+    const waterMl = waterBase + waterTrain;
+
+    // 10) 跑步配速：距离 + 用时直接算配速，适合有氧用户。
+    const paceMin = rd > 0 && rm > 0 ? rm / rd : 0;
+    const paceText = paceMin > 0 ? `${Math.floor(paceMin)}分${Math.round((paceMin % 1) * 60)}秒/公里` : "-";
+
+    calcResult.innerHTML = `
+      <div class="metric"><b>BMI</b><span>${bmi.toFixed(1)}（${bmiLevel}）</span></div>
+      <div class="metric"><b>BMR</b><span>${bmr.toFixed(0)} kcal</span></div>
+      <div class="metric"><b>TDEE</b><span>${tdee.toFixed(0)} kcal</span></div>
+      <div class="metric"><b>目标热量</b><span>${k.toFixed(0)} kcal</span></div>
+      <div class="metric"><b>蛋白质</b><span>${p.toFixed(1)} g</span></div>
+      <div class="metric"><b>脂肪</b><span>${f.toFixed(1)} g</span></div>
+      <div class="metric"><b>碳水</b><span>${c.toFixed(1)} g</span></div>
+      <div class="metric"><b>体脂率估算</b><span>${bodyFat.toFixed(1)}%</span></div>
+      <div class="metric"><b>去脂体重</b><span>${lbm.toFixed(1)} kg</span></div>
+      <div class="metric"><b>FFMI</b><span>${ffmi.toFixed(1)}</span></div>
+      <div class="metric"><b>健康体重区间</b><span>${targetMin.toFixed(1)} - ${targetMax.toFixed(1)} kg</span></div>
+      <div class="metric"><b>1RM 估算</b><span>${oneRm ? oneRm.toFixed(1) + " kg" : "-"}</span></div>
+      <div class="metric"><b>饮水建议</b><span>${(waterMl / 1000).toFixed(2)} L/天</span></div>
+      <div class="metric"><b>跑步配速</b><span>${paceText}</span></div>
+    `;
 
     latestPlanText =
 `【吃人陈｜个人执行方案】
 昵称：${n}
+年龄：${a}
+性别：${sex}
 身高：${h} cm
 体重：${w} kg
 目标：${g}
 BMI：${bmi.toFixed(1)}
 
-一、每日营养建议（基础）
+一、核心计算结果（免费版）
+- BMR：${bmr.toFixed(0)} kcal
+- TDEE：${tdee.toFixed(0)} kcal
 - 热量：${k.toFixed(0)} kcal
 - 蛋白质：${p.toFixed(1)} g
 - 脂肪：${f.toFixed(1)} g
-- 碳水：${Math.max(0, c).toFixed(1)} g
+- 碳水：${c.toFixed(1)} g
+- 体脂率估算：${bodyFat.toFixed(1)}%
+- 1RM估算：${oneRm ? oneRm.toFixed(1) + " kg" : "未填写重量和次数"}
+- 饮水建议：${(waterMl / 1000).toFixed(2)} L/天
+- 跑步配速：${paceText}
 
 二、训练建议
 - 每周 3-4 次力量训练（每动作 3 组 × 8-12 次）
@@ -74,8 +162,12 @@ BMI：${bmi.toFixed(1)}
 - 饮水：2-3L/天（视出汗量调整）
 - 优先保证连续性，不求单次极限
 
-四、进阶交付
-如需 7 天详细饮食+训练逐日版，请联系微信：${wechat}
+四、核心付费内容（解锁后交付）
+- 7天逐日克数饮食表（按你的作息与目标定制）
+- 7天逐日训练安排（动作/组次/强度进阶）
+- 平台期调整策略（热量与训练量动态修正）
+- 微信跟进答疑与复盘模板
+联系微信：${wechat}
 `;
     output.textContent = latestPlanText;
   }
