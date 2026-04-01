@@ -40,6 +40,11 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
 .checklist-grid input{width:16px;height:16px;min-height:auto;margin-top:2px}
 .week-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .week-item{border:1px solid #ddd6fe;background:#faf5ff;border-radius:10px;padding:10px;font-size:13px;color:#4c1d95;font-weight:800}
+.hero-cta{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;align-items:stretch}
+.hero-cta-left h2{font-size:24px;margin-bottom:10px}
+.bullet-list p{margin:6px 0;color:#334155;font-weight:700}
+.hero-cta-right{display:flex;flex-direction:column;gap:10px}
+.mini-card{border:1px solid #ddd6fe;background:#faf5ff;border-radius:12px;padding:12px}
 @media (min-width:1000px){
   .wrap{padding:20px}
   .card{padding:18px}
@@ -66,6 +71,8 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .free-grid{grid-template-columns:1fr}
   .checklist-grid{grid-template-columns:1fr 1fr}
   .week-grid{grid-template-columns:1fr}
+  .hero-cta{grid-template-columns:1fr}
+  .hero-cta-left h2{font-size:20px}
 }
 @media (max-width:430px){
   .topbar{position:sticky}
@@ -91,5 +98,6 @@ input,select{display:block;width:100%;margin-top:6px;min-height:42px;padding:10p
   .checklist-grid{grid-template-columns:1fr}
   .checklist-grid label{font-size:12px}
   .week-item{font-size:12px}
+  .hero-cta-left h2{font-size:18px}
 }
 
