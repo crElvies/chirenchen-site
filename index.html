@@ -4,54 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=1.8.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.0.0" />
 </head>
 <body>
   <div class="topbar">
     <div class="topbar-inner">
-      <span>已上线网址：<b>https://crelvies.github.io/chirenchen-site/</b></span>
-      <span>微信：<b>Cr9x0819</b></span>
+      <span>吃人陈</span>
+      <span>微信：Cr9x0819</span>
     </div>
   </div>
-  <main class="wrap">
-    <section class="hero card">
-      <h1>吃人陈｜健身饮食交互中心</h1>
-      <div class="tags">
-        <span>品牌：吃人陈</span><span>微信：Cr9x0819</span><span>移动端优先</span>
-      </div>
-    </section>
 
-    <section class="card hero-cta">
-      <div class="hero-cta-left">
-        <h2>先免费拿结果，再决定要不要升级</h2>
-        <p>你可以先用免费的计算器、训练路线、食谱和清单开始执行。觉得有帮助，再升级 7 天逐日版，减少试错。</p>
-        <div class="bullet-list">
-          <p>✓ 适合新手，低成本可执行</p>
-          <p>✓ 先看到价值，再考虑付费</p>
-          <p>✓ 微信一对一人工对单交付</p>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-main">
+        <h1>你的专属健身计划，从今天开始</h1>
+        <p>输入个人数据，立刻得到可执行的热量、营养、训练建议。先免费体验，再决定是否升级。</p>
+        <div class="actions">
+          <a class="btn primary" href="#userForm">立即开始计算</a>
+          <a class="btn" href="#paySection">查看进阶服务</a>
         </div>
       </div>
-      <div class="hero-cta-right">
-        <div class="mini-card">
-          <p><b>先算清你的目标数据，再开始执行。</b></p>
+      <div class="hero-side">
+        <div class="hero-kpi">
+          <span>12 周</span>
+          <p>执行周期</p>
         </div>
-        <div class="actions">
-          <a class="btn primary" href="#userForm">立即生成我的免费方案</a>
-          <a class="btn" href="#paySection">查看升级服务（放在最后）</a>
+        <div class="hero-kpi">
+          <span>3-4 次</span>
+          <p>每周训练</p>
+        </div>
+        <div class="hero-kpi">
+          <span>20-40 分钟</span>
+          <p>单次时长</p>
         </div>
       </div>
     </section>
 
     <section class="card" id="userForm">
-      <h2>用户信息 + 多功能计算器</h2>
+      <h2>个人数据计算器</h2>
       <div class="grid">
         <label>昵称<input id="nickname" placeholder="例如：小陈" /></label>
         <label>年龄<input id="age" type="number" value="28" /></label>
         <label>性别
-          <select id="gender">
-            <option value="男">男</option>
-            <option value="女">女</option>
-          </select>
+          <select id="gender"><option value="男">男</option><option value="女">女</option></select>
         </label>
         <label>身高(cm)<input id="height" type="number" value="170" /></label>
         <label>体重(kg)<input id="weight" type="number" value="70" /></label>
@@ -65,26 +60,22 @@
           </select>
         </label>
         <label>目标
-          <select id="goal">
-            <option value="减脂">减脂</option>
-            <option value="增肌">增肌</option>
-            <option value="维持">维持</option>
-          </select>
+          <select id="goal"><option value="减脂">减脂</option><option value="增肌">增肌</option><option value="维持">维持</option></select>
         </label>
-        <label>腰围(cm，体脂估算用)<input id="waist" type="number" value="82" /></label>
-        <label>颈围(cm，体脂估算用)<input id="neck" type="number" value="36" /></label>
-        <label>臀围(cm，女性估算可用)<input id="hip" type="number" value="95" /></label>
-        <label>单组重量(kg，1RM)<input id="liftWeight" type="number" value="60" /></label>
-        <label>单组次数(次，1RM)<input id="liftReps" type="number" value="8" /></label>
+        <label>腰围(cm)<input id="waist" type="number" value="82" /></label>
+        <label>颈围(cm)<input id="neck" type="number" value="36" /></label>
+        <label>臀围(cm)<input id="hip" type="number" value="95" /></label>
+        <label>单组重量(kg)<input id="liftWeight" type="number" value="60" /></label>
+        <label>单组次数(次)<input id="liftReps" type="number" value="8" /></label>
         <label>跑步距离(km)<input id="runDistance" type="number" value="5" /></label>
         <label>跑步用时(分钟)<input id="runMinutes" type="number" value="30" /></label>
       </div>
       <div class="actions">
-        <button id="btnGenerate" class="btn primary">一键计算全部结果</button>
+        <button id="btnGenerate" class="btn primary">生成我的结果</button>
       </div>
       <div id="calcResult" class="metrics-grid"></div>
       <div id="planCards" class="plan-grid"></div>
-      <div id="advicePanel" class="advice-panel">点击“一键计算全部结果”后，自动生成训练建议与执行提示。</div>
+      <div id="advicePanel" class="advice-panel">点击“生成我的结果”后，查看训练建议与执行提示。</div>
     </section>
 
     <section class="card">
@@ -92,25 +83,22 @@
       <div class="route-grid">
         <div class="route-card">
           <h3>每周 3 天（新手）</h3>
-          <p><b>Mon：</b>全身（深蹲/俯卧撑/划船/核心）</p>
-          <p><b>Wed：</b>上肢（推/拉/肩）</p>
-          <p><b>Fri：</b>下肢（深蹲/硬拉/弓步）</p>
-          <p>每动作 3 组 × 8-12 次，组间休息 90-180 秒。</p>
+          <p>Mon：全身（深蹲/俯卧撑/划船/核心）</p>
+          <p>Wed：上肢（推/拉/肩）</p>
+          <p>Fri：下肢（深蹲/硬拉/弓步）</p>
         </div>
         <div class="route-card">
           <h3>每周 4 天（进阶）</h3>
-          <p><b>Mon：</b>上肢推</p>
-          <p><b>Tue：</b>下肢</p>
-          <p><b>Thu：</b>上肢拉</p>
-          <p><b>Sat：</b>全身与核心</p>
-          <p>每周记录重量与次数，保持小幅进步。</p>
+          <p>Mon：上肢推</p>
+          <p>Tue：下肢</p>
+          <p>Thu：上肢拉</p>
+          <p>Sat：全身与核心</p>
         </div>
         <div class="route-card">
-          <h3>有氧与恢复</h3>
-          <p><b>有氧：</b>每周 2-4 次，每次 20-30 分钟</p>
-          <p><b>恢复：</b>每天走路 7k-10k 步</p>
-          <p><b>睡眠：</b>7-8 小时</p>
-          <p>连续执行优先，生病时可减量。</p>
+          <h3>恢复安排</h3>
+          <p>每周 2-4 次有氧，每次 20-30 分钟</p>
+          <p>每天走路 7k-10k 步</p>
+          <p>睡眠 7-8 小时</p>
         </div>
       </div>
     </section>
@@ -125,192 +113,64 @@
         <button class="tag-btn pay-tag" data-filter="低预算">低预算</button>
       </div>
       <div class="free-grid">
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白,低预算" open>
-          <summary>青椒鸡丁盖饭</summary>
-          <ul>
-            <li>食材：鸡胸肉 220g、青椒 120g、胡萝卜 80g、米饭 220g</li>
-            <li>做法1：鸡胸切丁加少量生抽和淀粉抓匀。</li>
-            <li>做法2：热锅少油先炒鸡丁，再下青椒胡萝卜。</li>
-            <li>做法3：翻炒 3-4 分钟后出锅，配米饭食用。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
-          <summary>番茄牛肉土豆炖饭</summary>
-          <ul>
-            <li>食材：瘦牛肉 180g、番茄 250g、土豆 180g、米饭 180g</li>
-            <li>做法1：牛肉切块焯水，番茄切块备用。</li>
-            <li>做法2：锅中下番茄炒出汁后加牛肉和土豆炖 20 分钟。</li>
-            <li>做法3：按口味加盐，配米饭即可。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
-          <summary>豆腐虾仁蒸蛋</summary>
-          <ul>
-            <li>食材：鸡蛋 2 个、嫩豆腐 200g、虾仁 120g、香菇 80g</li>
-            <li>做法1：鸡蛋加温水打匀，豆腐切块放碗底。</li>
-            <li>做法2：放虾仁和香菇，倒入蛋液盖保鲜膜扎孔。</li>
-            <li>做法3：中火蒸 10-12 分钟，出锅加葱花。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白">
-          <summary>西兰花牛肉片</summary>
-          <ul>
-            <li>食材：牛里脊 180g、西兰花 220g、蒜末 10g、米饭 120g</li>
-            <li>做法1：牛肉切片腌 10 分钟，西兰花焯水。</li>
-            <li>做法2：蒜末爆香后快速滑炒牛肉。</li>
-            <li>做法3：加入西兰花翻匀，少盐调味后出锅。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
-          <summary>香菇鸡腿焖饭</summary>
-          <ul>
-            <li>食材：去皮鸡腿肉 220g、干香菇 30g、胡萝卜 80g、大米 110g</li>
-            <li>做法1：鸡腿切块，香菇泡发切片。</li>
-            <li>做法2：所有食材和米一起入电饭煲，加生抽和清水。</li>
-            <li>做法3：煮饭模式结束后翻匀即可。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
-          <summary>番茄鸡蛋魔芋面</summary>
-          <ul>
-            <li>食材：番茄 250g、鸡蛋 2 个、魔芋面 200g、小油菜 120g</li>
-            <li>做法1：番茄炒出汁后加水煮开。</li>
-            <li>做法2：下魔芋面和小油菜煮 2 分钟。</li>
-            <li>做法3：淋入蛋液成蛋花，加盐即可。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算">
-          <summary>木耳鸡胸炒黄瓜</summary>
-          <ul>
-            <li>食材：鸡胸肉 200g、泡发木耳 120g、黄瓜 180g、蒜末 8g</li>
-            <li>做法1：鸡胸切片腌制，木耳焯水。</li>
-            <li>做法2：蒜末爆香，下鸡胸翻炒至变色。</li>
-            <li>做法3：加入木耳和黄瓜快炒 2-3 分钟，少盐出锅。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白">
-          <summary>香干芹菜牛肉丝</summary>
-          <ul>
-            <li>食材：瘦牛肉 180g、香干 120g、芹菜 180g、米饭 180g</li>
-            <li>做法1：牛肉切丝腌制，香干和芹菜切条。</li>
-            <li>做法2：先炒牛肉丝，再加入香干和芹菜。</li>
-            <li>做法3：加少量生抽调味，翻匀后配米饭。</li>
-          </ul>
-        </details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白">
-          <summary>冬瓜虾仁豆腐汤</summary>
-          <ul>
-            <li>食材：冬瓜 250g、虾仁 160g、嫩豆腐 200g、姜丝 8g</li>
-            <li>做法1：冬瓜切片，豆腐切块，虾仁去腥。</li>
-            <li>做法2：姜丝煮开水后下冬瓜和豆腐煮 5 分钟。</li>
-            <li>做法3：加入虾仁再煮 2-3 分钟，加盐即可。</li>
-          </ul>
-        </details>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白,低预算" open><summary>青椒鸡丁盖饭</summary><ul><li>鸡胸肉 220g、青椒 120g、胡萝卜 80g、米饭 220g</li><li>鸡胸切丁腌制后快炒，配米饭。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>番茄牛肉土豆炖饭</summary><ul><li>瘦牛肉 180g、番茄 250g、土豆 180g、米饭 180g</li><li>番茄炒汁后和牛肉土豆同炖。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>豆腐虾仁蒸蛋</summary><ul><li>鸡蛋 2 个、嫩豆腐 200g、虾仁 120g、香菇 80g</li><li>混合后蒸 10-12 分钟。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白"><summary>西兰花牛肉片</summary><ul><li>牛里脊 180g、西兰花 220g、蒜末 10g、米饭 120g</li><li>牛肉快炒后加入西兰花翻匀。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>香菇鸡腿焖饭</summary><ul><li>去皮鸡腿肉 220g、香菇 30g、胡萝卜 80g、大米 110g</li><li>食材同入电饭煲焖熟。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>番茄鸡蛋魔芋面</summary><ul><li>番茄 250g、鸡蛋 2 个、魔芋面 200g、小油菜 120g</li><li>番茄打底，面菜入锅后淋蛋液。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>木耳鸡胸炒黄瓜</summary><ul><li>鸡胸 200g、木耳 120g、黄瓜 180g</li><li>蒜末爆香后快炒。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>香干芹菜牛肉丝</summary><ul><li>牛肉 180g、香干 120g、芹菜 180g、米饭 180g</li><li>牛肉丝先炒，再下配菜。</li></ul></details>
+        <details class="free-item recipe-card" data-tags="减脂,高蛋白"><summary>冬瓜虾仁豆腐汤</summary><ul><li>冬瓜 250g、虾仁 160g、嫩豆腐 200g</li><li>先煮冬瓜豆腐，再下虾仁。</li></ul></details>
       </div>
-    </section>
-
-    <section class="card">
-      <h2>03｜采购清单</h2>
-      <p>该模块已移除，个性化采购方案在付费版提供。</p>
     </section>
 
     <section class="card">
       <h2>04｜执行打卡</h2>
       <div class="week-grid">
-        <div class="week-item">第1-2周：建立习惯（每周3练+每日步行20-25分钟）</div>
-        <div class="week-item">第3-4周：动作标准化（记录重量、次数、RPE）</div>
-        <div class="week-item">第5-6周：渐进超负荷（每周小幅加重/加次数）</div>
-        <div class="week-item">第7周：轻量恢复周（训练量下降30%-40%）</div>
-        <div class="week-item">第8-10周：继续进阶（力量与体重双跟踪）</div>
-        <div class="week-item">第11-12周：总结评估（围度/体重/动作表现）</div>
-      </div>
-      <div class="free-grid">
-        <div class="free-item">
-          <summary>每周复盘模板（建议周日）</summary>
-          <ul>
-            <li>体重：记录周均值，不看单天波动</li>
-            <li>训练：本周是否有动作或重量进步</li>
-            <li>饮食：是否达到目标热量区间</li>
-            <li>睡眠：是否稳定 7-8 小时</li>
-          </ul>
-        </div>
-        <div class="free-item">
-          <summary>执行规则（12周通用）</summary>
-          <ul>
-            <li>生病或极度疲劳时可减量，优先长期坚持</li>
-            <li>每周可安排 1 次弹性餐，但不突破总热量</li>
-            <li>体重变化后，重新计算热量和三大营养</li>
-            <li>卡住 2 周后再调整饮食或训练量</li>
-          </ul>
-        </div>
+        <div class="week-item">第1-2周：建立习惯（每周3练）</div>
+        <div class="week-item">第3-4周：动作标准化与记录</div>
+        <div class="week-item">第5-6周：渐进超负荷</div>
+        <div class="week-item">第7周：恢复周（训练量下降）</div>
+        <div class="week-item">第8-10周：继续进阶</div>
+        <div class="week-item">第11-12周：总结评估</div>
       </div>
     </section>
 
     <section class="card">
       <h2>05｜常见问题</h2>
       <div class="free-grid">
-        <details class="free-item" open>
-          <summary>没时间去健身房怎么办？</summary>
-          <p>先做徒手训练：深蹲、俯卧撑、弹力带划船、平板支撑，每次 20-30 分钟也有效。</p>
-        </details>
-        <details class="free-item">
-          <summary>减脂期一定不能吃米饭吗？</summary>
-          <p>不需要。关键是总热量和长期执行，米饭可以吃，控制份量并优先搭配蛋白质和蔬菜。</p>
-        </details>
-        <details class="free-item">
-          <summary>体重没变化是不是失败了？</summary>
-          <p>不一定。看 2-3 周平均趋势，同时关注围度、镜子变化、力量水平和精神状态。</p>
-        </details>
-        <details class="free-item">
-          <summary>如何准确称量自己的体重？</summary>
-          <p>固定在早起上厕所后、空腹、穿同样轻薄衣物称重，用每周平均值判断变化。</p>
-        </details>
-        <details class="free-item">
-          <summary>每天吃几餐更健康？</summary>
-          <p>多数人 3 餐或 3 餐 + 1 加餐都可以，关键是总热量和营养达标，而不是餐次越多越好。</p>
-        </details>
-        <details class="free-item">
-          <summary>训练前后一定要补充蛋白吗？</summary>
-          <p>重点是全天蛋白总量够。训练前后 1-2 小时吃到蛋白会更方便恢复，但不必过度焦虑“黄金窗口”。</p>
-        </details>
+        <details class="free-item" open><summary>没时间去健身房怎么办？</summary><p>先做徒手训练，每次 20-30 分钟也有效。</p></details>
+        <details class="free-item"><summary>减脂期一定不能吃米饭吗？</summary><p>可以吃，关键是总热量和长期执行。</p></details>
+        <details class="free-item"><summary>体重没变化是不是失败了？</summary><p>看 2-3 周平均趋势，同时看围度和力量。</p></details>
+        <details class="free-item"><summary>如何准确称量体重？</summary><p>固定早起空腹称重，使用周均值。</p></details>
+        <details class="free-item"><summary>每天吃几餐更健康？</summary><p>3 餐或 3+1 都可以，关键看总量。</p></details>
+        <details class="free-item"><summary>训练前后一定补蛋白吗？</summary><p>全天蛋白总量达标更重要。</p></details>
       </div>
     </section>
+
     <section class="card" id="paySection">
-      <h2>升级服务（付费放最后）</h2>
-      <p><b>你将获得：</b>每日克数饮食表、每日训练动作安排、新手纠错提示、跟进反馈建议。</p>
+      <h2>升级服务（付费）</h2>
       <div class="order-box">
-        <div><b>核心付费内容（重点）：</b></div>
-        <div class="muted">1) 7天逐日饮食克数表（按你个人体重/作息定制）</div>
-        <div class="muted">2) 7天逐日训练动作+组次+强度进阶表</div>
-        <div class="muted">3) 停滞期调整建议（热量/碳水/训练量如何改）</div>
-        <div class="muted">4) 解锁更多健康餐食谱（家常、低成本、单人份持续更新）</div>
-        <div class="muted">5) 每周复盘模板与微信人工答疑</div>
+        <div><b>你将获得：</b></div>
+        <div>1) 7 天逐日饮食克数表</div>
+        <div>2) 7 天逐日训练动作与强度进阶</div>
+        <div>3) 停滞期调整策略</div>
+        <div>4) 更多健康餐食谱库</div>
+        <div>5) 微信跟进答疑</div>
       </div>
-      <h2>支付流程（真实收款码）</h2>
       <div class="pay-tabs">
         <button class="tab active" data-pay="wx">微信支付</button>
         <button class="tab" data-pay="ali">支付宝</button>
       </div>
-
       <div id="pay-wx" class="pay-panel active">
         <img src="./assets/img/wechat-pay.png" alt="微信收款码" />
       </div>
       <div id="pay-ali" class="pay-panel">
         <img src="./assets/img/alipay-pay.png" alt="支付宝收款码" />
       </div>
-
-      <ol>
-        <li>点击“立即支付（扫码）”生成订单号；</li>
-        <li>选择微信或支付宝扫码付款；</li>
-        <li>付款后点击“我已支付”，并按提示加微信发截图。</li>
-      </ol>
       <div class="order-box">
         <div><b>当前订单编号：</b><span id="orderId">-</span></div>
-        <div class="muted">每次点击“立即支付（扫码）”会生成新订单号，并本地保存用于对单。</div>
-      </div>
-      <div class="order-box">
-        <div><b>支付后请按这个格式发微信：</b></div>
-        <div class="muted">“已支付 + 订单号 + 昵称 + 支付截图”</div>
       </div>
       <div class="actions">
         <button id="btnPayNow" class="btn primary">立即支付（扫码）</button>
@@ -321,13 +181,12 @@
 
     <section class="card">
       <h2>版本信息</h2>
-      <p><b>版本号：</b>v1.8.0</p>
+      <p><b>版本号：</b>v2.0.0</p>
       <p><b>更新时间：</b><span id="versionDate">-</span></p>
-      <p>更新内容：整体排版精简，训练建议与执行提示文案升级。</p>
     </section>
   </main>
 
-  <script src="./assets/app.js?v=1.8.0"></script>
+  <script src="./assets/app.js?v=2.0.0"></script>
 </body>
 </html>
 
