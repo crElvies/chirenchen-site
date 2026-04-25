@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=2.0.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.1.0" />
 </head>
 <body>
   <div class="topbar">
@@ -112,16 +112,37 @@
         <button class="tag-btn pay-tag" data-filter="高蛋白">高蛋白</button>
         <button class="tag-btn pay-tag" data-filter="低预算">低预算</button>
       </div>
-      <div class="free-grid">
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白,低预算" open><summary>青椒鸡丁盖饭</summary><ul><li>鸡胸肉 220g、青椒 120g、胡萝卜 80g、米饭 220g</li><li>鸡胸切丁腌制后快炒，配米饭。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>番茄牛肉土豆炖饭</summary><ul><li>瘦牛肉 180g、番茄 250g、土豆 180g、米饭 180g</li><li>番茄炒汁后和牛肉土豆同炖。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>豆腐虾仁蒸蛋</summary><ul><li>鸡蛋 2 个、嫩豆腐 200g、虾仁 120g、香菇 80g</li><li>混合后蒸 10-12 分钟。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白"><summary>西兰花牛肉片</summary><ul><li>牛里脊 180g、西兰花 220g、蒜末 10g、米饭 120g</li><li>牛肉快炒后加入西兰花翻匀。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>香菇鸡腿焖饭</summary><ul><li>去皮鸡腿肉 220g、香菇 30g、胡萝卜 80g、大米 110g</li><li>食材同入电饭煲焖熟。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>番茄鸡蛋魔芋面</summary><ul><li>番茄 250g、鸡蛋 2 个、魔芋面 200g、小油菜 120g</li><li>番茄打底，面菜入锅后淋蛋液。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白,低预算"><summary>木耳鸡胸炒黄瓜</summary><ul><li>鸡胸 200g、木耳 120g、黄瓜 180g</li><li>蒜末爆香后快炒。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="增肌,高蛋白"><summary>香干芹菜牛肉丝</summary><ul><li>牛肉 180g、香干 120g、芹菜 180g、米饭 180g</li><li>牛肉丝先炒，再下配菜。</li></ul></details>
-        <details class="free-item recipe-card" data-tags="减脂,高蛋白"><summary>冬瓜虾仁豆腐汤</summary><ul><li>冬瓜 250g、虾仁 160g、嫩豆腐 200g</li><li>先煮冬瓜豆腐，再下虾仁。</li></ul></details>
+      <div class="info-grid">
+        <article class="info-card recipe-card" data-tags="增肌,高蛋白,低预算">
+          <h3>青椒鸡丁盖饭</h3><p>高蛋白快手主食，适合训练日。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>鸡胸肉 220g、青椒 120g、胡萝卜 80g、米饭 220g。</p><p><b>步骤：</b>鸡胸切丁腌制后快炒，加入青椒胡萝卜翻炒 3-4 分钟，配米饭食用。</p></div>
+        </article>
+        <article class="info-card recipe-card" data-tags="增肌,高蛋白">
+          <h3>番茄牛肉土豆炖饭</h3><p>增肌补碳组合，口味稳定。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>瘦牛肉 180g、番茄 250g、土豆 180g、米饭 180g。</p><p><b>步骤：</b>牛肉焯水，番茄炒汁后加入牛肉和土豆炖 20 分钟，按口味调盐后配米饭。</p></div>
+        </article>
+        <article class="info-card recipe-card" data-tags="减脂,高蛋白,低预算">
+          <h3>豆腐虾仁蒸蛋</h3><p>低油蒸制，减脂期友好。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>鸡蛋 2 个、嫩豆腐 200g、虾仁 120g、香菇 80g。</p><p><b>步骤：</b>蛋液加温水打匀，加入豆腐虾仁香菇，中火蒸 10-12 分钟。</p></div>
+        </article>
+        <article class="info-card recipe-card" data-tags="减脂,高蛋白">
+          <h3>西兰花牛肉片</h3><p>经典高蛋白搭配，饱腹感强。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>牛里脊 180g、西兰花 220g、蒜末 10g、米饭 120g。</p><p><b>步骤：</b>牛肉腌制后快炒，加入焯水西兰花翻匀，少盐调味出锅。</p></div>
+        </article>
+        <article class="info-card recipe-card" data-tags="增肌,高蛋白">
+          <h3>香菇鸡腿焖饭</h3><p>一锅出，适合忙碌工作日。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>去皮鸡腿肉 220g、香菇 30g、胡萝卜 80g、大米 110g。</p><p><b>步骤：</b>食材处理后与米同入电饭煲，按焖饭模式完成。</p></div>
+        </article>
+        <article class="info-card recipe-card" data-tags="减脂,高蛋白,低预算">
+          <h3>番茄鸡蛋魔芋面</h3><p>低热量主食替代方案。</p>
+          <button class="btn open-detail">查看做法</button>
+          <div class="detail-source" hidden><p><b>食材：</b>番茄 250g、鸡蛋 2 个、魔芋面 200g、小油菜 120g。</p><p><b>步骤：</b>番茄炒出汁加水，下魔芋面和油菜煮 2 分钟，淋蛋液即可。</p></div>
+        </article>
       </div>
     </section>
 
@@ -139,13 +160,22 @@
 
     <section class="card">
       <h2>05｜常见问题</h2>
-      <div class="free-grid">
-        <details class="free-item" open><summary>没时间去健身房怎么办？</summary><p>先做徒手训练，每次 20-30 分钟也有效。</p></details>
-        <details class="free-item"><summary>减脂期一定不能吃米饭吗？</summary><p>可以吃，关键是总热量和长期执行。</p></details>
-        <details class="free-item"><summary>体重没变化是不是失败了？</summary><p>看 2-3 周平均趋势，同时看围度和力量。</p></details>
-        <details class="free-item"><summary>如何准确称量体重？</summary><p>固定早起空腹称重，使用周均值。</p></details>
-        <details class="free-item"><summary>每天吃几餐更健康？</summary><p>3 餐或 3+1 都可以，关键看总量。</p></details>
-        <details class="free-item"><summary>训练前后一定补蛋白吗？</summary><p>全天蛋白总量达标更重要。</p></details>
+      <div class="info-grid">
+        <article class="info-card">
+          <h3>没时间去健身房怎么办？</h3><p>家庭训练同样有效。</p>
+          <button class="btn open-detail">查看答案</button>
+          <div class="detail-source" hidden><p>先做徒手训练：深蹲、俯卧撑、划船、平板支撑。每次 20-30 分钟，坚持优先于复杂计划。</p></div>
+        </article>
+        <article class="info-card">
+          <h3>减脂期一定不能吃米饭吗？</h3><p>不需要完全戒米饭。</p>
+          <button class="btn open-detail">查看答案</button>
+          <div class="detail-source" hidden><p>可以吃米饭，关键是全天总热量控制和蛋白质达标。优先搭配蛋白质和蔬菜。</p></div>
+        </article>
+        <article class="info-card">
+          <h3>体重没变化是不是失败了？</h3><p>看趋势，不看单天数字。</p>
+          <button class="btn open-detail">查看答案</button>
+          <div class="detail-source" hidden><p>用 2-3 周平均体重判断，并结合围度、镜子状态、力量进步一起评估。</p></div>
+        </article>
       </div>
     </section>
 
@@ -186,7 +216,17 @@
     </section>
   </main>
 
-  <script src="./assets/app.js?v=2.0.0"></script>
+  <div id="detailModal" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="detailTitle">详情</h3>
+        <button id="modalClose" class="btn">关闭</button>
+      </div>
+      <div id="detailBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="./assets/app.js?v=2.1.0"></script>
 </body>
 </html>
 

@@ -18,6 +18,10 @@
   const planCards = $("planCards");
   const advicePanel = $("advicePanel");
   const versionDate = $("versionDate");
+  const detailModal = $("detailModal");
+  const detailTitle = $("detailTitle");
+  const detailBody = $("detailBody");
+  const modalClose = $("modalClose");
   const wechat = "Cr9x0819";
   const orderKey = "chirenchen_current_order_v1";
   const checklistKey = "chirenchen_free_checklist_v2";
@@ -211,6 +215,29 @@
     });
   }
 
+  function initDetailModal() {
+    const detailButtons = Array.from(document.querySelectorAll(".open-detail"));
+    detailButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const card = btn.closest(".info-card");
+        if (!card || !detailModal || !detailTitle || !detailBody) return;
+        const titleEl = card.querySelector("h3");
+        const source = card.querySelector(".detail-source");
+        detailTitle.textContent = titleEl ? titleEl.textContent : "详情";
+        detailBody.innerHTML = source ? source.innerHTML : "<p>暂无内容</p>";
+        detailModal.hidden = false;
+      });
+    });
+    if (modalClose && detailModal) {
+      modalClose.addEventListener("click", () => {
+        detailModal.hidden = true;
+      });
+      detailModal.addEventListener("click", (e) => {
+        if (e.target === detailModal) detailModal.hidden = true;
+      });
+    }
+  }
+
   function setTodayForVersion() {
     if (!versionDate) return;
     const d = new Date();
@@ -268,6 +295,7 @@
   setOrderId(getOrderId());
   initChecklist();
   initRecipeFilter();
+  initDetailModal();
   setTodayForVersion();
 })();
 
