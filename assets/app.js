@@ -27,6 +27,11 @@
   const detailTitle = $("detailTitle");
   const detailBody = $("detailBody");
   const modalClose = $("modalClose");
+  const payStep1 = $("payStep1");
+  const payStep2 = $("payStep2");
+  const payStep3 = $("payStep3");
+  const selectedPack = $("selectedPack");
+  const payScript = $("payScript");
   const wechat = "Cr9x0819";
   const orderKey = "chirenchen_current_order_v1";
   const checklistKey = "chirenchen_free_checklist_v2";
@@ -272,6 +277,28 @@
     versionDate.textContent = `${d.getFullYear()}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
+  function setPayStep(step) {
+    if (!payStep1 || !payStep2 || !payStep3) return;
+    payStep1.classList.remove("active");
+    payStep2.classList.remove("active");
+    payStep3.classList.remove("active");
+    if (step === 1) payStep1.classList.add("active");
+    if (step === 2) payStep2.classList.add("active");
+    if (step === 3) payStep3.classList.add("active");
+  }
+
+  function initPackSelection() {
+    const packs = Array.from(document.querySelectorAll(".pack-card"));
+    if (!packs.length) return;
+    packs.forEach((pack) => {
+      pack.addEventListener("click", () => {
+        packs.forEach((p) => p.classList.remove("active"));
+        pack.classList.add("active");
+        if (selectedPack) selectedPack.textContent = pack.dataset.pack || "7天体验版（¥9.9）";
+      });
+    });
+  }
+
   // 支付方式切换
   const tabs = Array.from(document.querySelectorAll(".tab"));
   tabs.forEach((tab) => {
@@ -288,10 +315,15 @@
   $("btnPayNow").addEventListener("click", () => {
     const id = makeOrderId();
     setOrderId(id);
+    setPayStep(2);
     alert(`订单已创建：${id}\n请使用当前显示的收款码完成支付。支付后点击“我已支付”。`);
   });
   $("btnPaid").addEventListener("click", () => {
     const id = getOrderId();
+    const packText = selectedPack ? selectedPack.textContent : "7天体验版（¥9.9）";
+    const script = `你好吃人陈，我已支付【${packText}】。\n订单号：${id}\n昵称：${nickname.value || "未填写"}\n请接收截图并安排交付，谢谢。`;
+    if (payScript) payScript.textContent = script;
+    setPayStep(3);
     alert(`已支付后加微信并发截图。\n微信：${wechat}\n请同时发送：订单号 ${id} + 昵称。`);
   });
 
@@ -322,7 +354,9 @@
   initChecklist();
   initRecipeFilter();
   initDetailModal();
+  initPackSelection();
   setTodayForVersion();
   setActiveStep("fill");
+  setPayStep(1);
 })();
 

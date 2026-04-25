@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=2.2.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.3.0" />
 </head>
 <body>
   <div class="topbar">
@@ -192,13 +192,23 @@
 
     <section class="card" id="paySection">
       <h2>升级服务（付费）</h2>
+      <div class="flow-steps">
+        <div class="flow-step active" id="payStep1">1 选择方案</div>
+        <div class="flow-step" id="payStep2">2 扫码支付</div>
+        <div class="flow-step" id="payStep3">3 提交凭证</div>
+      </div>
+      <div class="plan-packs">
+        <button class="pack-card active" data-pack="7天体验版（¥9.9）">
+          <b>7天体验版（¥9.9）</b>
+          <span>适合第一次执行，快速入门</span>
+        </button>
+        <button class="pack-card" data-pack="30天进阶版（¥39.9）">
+          <b>30天进阶版（¥39.9）</b>
+          <span>适合追求明显体型变化</span>
+        </button>
+      </div>
       <div class="order-box">
-        <div><b>你将获得：</b></div>
-        <div>1) 7 天逐日饮食克数表</div>
-        <div>2) 7 天逐日训练动作与强度进阶</div>
-        <div>3) 停滞期调整策略</div>
-        <div>4) 更多健康餐食谱库</div>
-        <div>5) 微信跟进答疑</div>
+        <div><b>当前选择：</b><span id="selectedPack">7天体验版（¥9.9）</span></div>
       </div>
       <div class="pay-tabs">
         <button class="tab active" data-pay="wx">微信支付</button>
@@ -213,6 +223,10 @@
       <div class="order-box">
         <div><b>当前订单编号：</b><span id="orderId">-</span></div>
       </div>
+      <div class="order-box">
+        <div><b>提交给客服的话术（自动生成）：</b></div>
+        <div id="payScript" class="muted">点击“我已支付”后生成发送文案。</div>
+      </div>
       <div class="actions">
         <button id="btnPayNow" class="btn primary">立即支付（扫码）</button>
         <button id="btnPaid" class="btn">我已支付</button>
@@ -222,7 +236,7 @@
 
     <section class="card">
       <h2>版本信息</h2>
-      <p><b>版本号：</b>v2.0.0</p>
+      <p><b>版本号：</b>v2.3.0</p>
       <p><b>更新时间：</b><span id="versionDate">-</span></p>
     </section>
   </main>
@@ -237,7 +251,7 @@
     </div>
   </div>
 
-  <script src="./assets/app.js?v=2.2.0"></script>
+  <script src="./assets/app.js?v=2.3.0"></script>
 </body>
 </html>
 
