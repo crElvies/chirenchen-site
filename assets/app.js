@@ -18,6 +18,11 @@
   const planCards = $("planCards");
   const advicePanel = $("advicePanel");
   const versionDate = $("versionDate");
+  const resultStage = $("resultStage");
+  const calcLoading = $("calcLoading");
+  const stepFill = $("stepFill");
+  const stepCalc = $("stepCalc");
+  const stepResult = $("stepResult");
   const detailModal = $("detailModal");
   const detailTitle = $("detailTitle");
   const detailBody = $("detailBody");
@@ -118,6 +123,10 @@
     const paceMin = rd > 0 && rm > 0 ? rm / rd : 0;
     const paceText = paceMin > 0 ? `${Math.floor(paceMin)}分${Math.round((paceMin % 1) * 60)}秒/公里` : "-";
 
+    if (calcLoading) calcLoading.hidden = false;
+    if (resultStage) resultStage.hidden = true;
+    setActiveStep("calc");
+
     calcResult.innerHTML = `
       <div class="metric"><b>BMI</b><span>${bmi.toFixed(1)}（${bmiLevel}）</span></div>
       <div class="metric"><b>BMR</b><span>${bmr.toFixed(0)} kcal</span></div>
@@ -166,6 +175,23 @@
     const goalText = g === "增肌" ? "增肌" : g === "减脂" ? "减脂" : "体型维持";
     const tip = `${n}，你现在已经拿到了专属数据，接下来就是把结果做出来。\n\n【训练建议】\n- 你的目标：${goalText}\n- 节奏：${trainFreq}\n- 力量训练保持 3 组 × 8-12 次，组间休息 90-180 秒\n- 有氧每次 20-35 分钟，优先快走/骑行/慢跑\n\n【执行提示】\n- ${progressRule}\n- 每周固定同一天晨起空腹称重，用周均值看趋势\n- 睡眠保持 7-8 小时，饮水约 ${(waterMl / 1000).toFixed(2)} L/天\n\n坚持 14 天，你会先感觉状态更好；坚持 30 天，身体变化会开始变得明显。`;
     advicePanel.textContent = tip;
+
+    window.setTimeout(() => {
+      if (calcLoading) calcLoading.hidden = true;
+      if (resultStage) resultStage.hidden = false;
+      setActiveStep("result");
+      if (resultStage) resultStage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 450);
+  }
+
+  function setActiveStep(step) {
+    if (!stepFill || !stepCalc || !stepResult) return;
+    stepFill.classList.remove("active");
+    stepCalc.classList.remove("active");
+    stepResult.classList.remove("active");
+    if (step === "fill") stepFill.classList.add("active");
+    if (step === "calc") stepCalc.classList.add("active");
+    if (step === "result") stepResult.classList.add("active");
   }
 
   function initChecklist() {
@@ -297,5 +323,6 @@
   initRecipeFilter();
   initDetailModal();
   setTodayForVersion();
+  setActiveStep("fill");
 })();
 

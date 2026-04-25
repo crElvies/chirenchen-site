@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=2.1.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.2.0" />
 </head>
 <body>
   <div class="topbar">
@@ -42,6 +42,11 @@
 
     <section class="card" id="userForm">
       <h2>个人数据计算器</h2>
+      <div class="flow-steps">
+        <div class="flow-step active" id="stepFill">1 填写信息</div>
+        <div class="flow-step" id="stepCalc">2 计算结果</div>
+        <div class="flow-step" id="stepResult">3 执行建议</div>
+      </div>
       <div class="grid">
         <label>昵称<input id="nickname" placeholder="例如：小陈" /></label>
         <label>年龄<input id="age" type="number" value="28" /></label>
@@ -73,9 +78,15 @@
       <div class="actions">
         <button id="btnGenerate" class="btn primary">生成我的结果</button>
       </div>
-      <div id="calcResult" class="metrics-grid"></div>
-      <div id="planCards" class="plan-grid"></div>
-      <div id="advicePanel" class="advice-panel">点击“生成我的结果”后，查看训练建议与执行提示。</div>
+      <div id="calcLoading" class="calc-loading" hidden>正在生成你的专属建议...</div>
+      <div id="resultStage" hidden>
+        <div id="calcResult" class="metrics-grid"></div>
+        <div id="planCards" class="plan-grid"></div>
+        <div id="advicePanel" class="advice-panel">点击“生成我的结果”后，查看训练建议与执行提示。</div>
+        <div class="actions">
+          <a class="btn primary" href="#paySection">解锁 7 天进阶方案</a>
+        </div>
+      </div>
     </section>
 
     <section class="card">
@@ -226,7 +237,7 @@
     </div>
   </div>
 
-  <script src="./assets/app.js?v=2.1.0"></script>
+  <script src="./assets/app.js?v=2.2.0"></script>
 </body>
 </html>
 
