@@ -32,6 +32,8 @@
   const payStep3 = $("payStep3");
   const selectedPack = $("selectedPack");
   const payScript = $("payScript");
+  const btnCopyScript = $("btnCopyScript");
+  const copyScriptStatus = $("copyScriptStatus");
   const wechat = "Cr9x0819";
   const orderKey = "chirenchen_current_order_v1";
   const checklistKey = "chirenchen_free_checklist_v2";
@@ -49,6 +51,22 @@
     localStorage.setItem(orderKey, id);
     const el = $("orderId");
     if (el) el.textContent = id;
+  }
+
+  async function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
   }
 
   function getOrderId() {
@@ -330,24 +348,33 @@
   $("btnCopyOrder").addEventListener("click", async () => {
     const id = getOrderId();
     try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(id);
-      } else {
-        const ta = document.createElement("textarea");
-        ta.value = id;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-      }
+      await copyText(id);
       alert("订单号已复制：" + id);
     } catch (e) {
       alert("复制失败，请手动记录订单号：" + id);
     }
   });
+
+  if (btnCopyScript) {
+    btnCopyScript.addEventListener("click", async () => {
+      const script = (payScript ? payScript.textContent : "").trim();
+      if (!script || script.includes("点击“我已支付”后生成发送文案")) {
+        alert("请先点击“我已支付”生成客服话术。");
+        return;
+      }
+      try {
+        await copyText(script);
+        if (copyScriptStatus) {
+          copyScriptStatus.textContent = "已复制，可直接粘贴发给客服";
+          window.setTimeout(() => {
+            if (copyScriptStatus) copyScriptStatus.textContent = "";
+          }, 2200);
+        }
+      } catch (e) {
+        alert("复制失败，请手动复制话术。");
+      }
+    });
+  }
 
   // 初始化显示历史订单号
   setOrderId(getOrderId());
