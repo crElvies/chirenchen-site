@@ -57,9 +57,7 @@ input,select{display:block;width:100%;margin-top:6px;padding:11px 12px;border:1p
 .route-card,.week-item{border:1px solid #e4e7ec;border-radius:12px;background:#fff;padding:12px}
 .route-card p,.week-item{font-size:14px;color:#344054}
 
-.tag-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.tag-btn{border:1px solid #d0d5dd;background:#fff;border-radius:999px;padding:8px 12px;font-weight:700;cursor:pointer}
-.tag-btn.active{background:#111827;color:#fff;border-color:#111827}
+.section-lead{margin:0 0 12px;font-size:13px;color:#667085;line-height:1.6;max-width:820px}
 .free-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .free-item{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
 .free-item summary{cursor:pointer;font-weight:800}

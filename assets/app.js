@@ -272,29 +272,6 @@
 
   $("btnGenerate").addEventListener("click", buildPlan);
 
-  function initRecipeFilter() {
-    const buttons = Array.from(document.querySelectorAll(".tag-btn"));
-    if (!buttons.length) return;
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        buttons.forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        const filter = btn.dataset.filter || "all";
-        const cards = Array.from(document.querySelectorAll(".recipe-card"));
-        if (filter === "all") {
-          cards.forEach((c) => {
-            c.style.display = "";
-          });
-          return;
-        }
-        cards.forEach((c) => {
-          const raw = (c.dataset.tags || "").split(",").map((t) => t.trim());
-          c.style.display = raw.includes(filter) ? "" : "none";
-        });
-      });
-    });
-  }
-
   function initDetailModal() {
     const detailButtons = Array.from(document.querySelectorAll(".open-detail"));
     detailButtons.forEach((btn) => {
@@ -391,7 +368,6 @@
   // 初始化显示历史订单号
   setOrderId(getOrderId());
   initChecklist();
-  initRecipeFilter();
   initDetailModal();
   setTodayForVersion();
   setActiveStep("fill");
