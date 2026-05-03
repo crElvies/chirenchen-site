@@ -27,9 +27,6 @@
   const detailTitle = $("detailTitle");
   const detailBody = $("detailBody");
   const modalClose = $("modalClose");
-  const payStep1 = $("payStep1");
-  const payStep2 = $("payStep2");
-  const payStep3 = $("payStep3");
   const selectedPack = $("selectedPack");
   const payScript = $("payScript");
   const btnCopyScript = $("btnCopyScript");
@@ -78,7 +75,16 @@
     return id;
   }
 
+  /** 将数值限制在合理区间，避免极端输入导致后续计算失真 */
+  function clamp(n, lo, hi) {
+    return Math.min(hi, Math.max(lo, n));
+  }
+
+  let calcBusy = false;
+  let calcTimer = null;
+
   function buildPlan() {
+    if (calcBusy) return;
     const n = (nickname.value || "你").trim();
     const a = Number(age.value);
     const sex = gender.value;
@@ -97,36 +103,52 @@
       alert("请先填写年龄、身高和体重。");
       return;
     }
+    if (a < 10 || a > 120 || h < 100 || h > 250 || w < 25 || w > 300) {
+      alert("请检查输入是否在合理范围：年龄 10–120 岁，身高 100–250 cm，体重 25–300 kg。");
+      return;
+    }
 
-    // 1) BMI：最基础体重状态指标，帮助新手先判断自己是偏瘦、正常还是偏高。
+    calcBusy = true;
+    if (calcTimer) window.clearTimeout(calcTimer);
+
+    // 1) BMI（身体质量指数 Body Mass Index）：体重(kg) / 身高(m)²，用于粗略判断体重区间。
     const bmi = w / Math.pow(h / 100, 2);
     const bmiLevel = bmi < 18.5 ? "偏瘦" : bmi < 24 ? "正常" : bmi < 28 ? "超重" : "肥胖";
 
-    // 2) BMR + TDEE：借鉴主流健身站做法，先算静息代谢，再乘活动系数得到维持热量。
+    // 2) BMR（基础代谢率 Basal Metabolic Rate）+ TDEE（每日总消耗 Total Daily Energy Expenditure）：采用 Mifflin-St Jeor 公式估算静息代谢，再乘以活动系数得到维持热量。
     const bmr = sex === "男"
       ? 10 * w + 6.25 * h - 5 * a + 5
       : 10 * w + 6.25 * h - 5 * a - 161;
     const tdee = bmr * af;
 
-    // 3) 目标热量：减脂 -400，增肌 +300，维持不变，便于直接执行。
+    // 3) 目标热量：在 TDEE 基础上按目标微调（减脂 -400 kcal / 增肌 +300 kcal），为常见可执行区间，非医疗处方。
     const k = g === "增肌" ? tdee + 300 : g === "减脂" ? tdee - 400 : tdee;
 
-    // 4) 三大营养素：延续你前面设定的核心策略。
+    // 4) 三大营养素（简化模型）：蛋白质/脂肪按体重系数，碳水由剩余热量推算（1g 蛋白质≈4 kcal，1g 碳水≈4 kcal，1g 脂肪≈9 kcal）。
     const p = (g === "增肌" ? 2.0 : 1.8) * w;
     const f = (g === "减脂" ? 0.8 : 0.9) * w;
     const c = Math.max(0, (k - p * 4 - f * 9) / 4);
 
-    // 5) 体脂估算：给没有体脂秤的用户一个“方向值”，用于长期对比趋势。
+    // 5) 体脂率估算：围度足够且 Navy 公式结果在合理范围时用 Navy（美国海军围度法）；否则用经验回归（仅作趋势参考，不能替代体脂秤或医学检测）。
     const bfByBmi = 1.2 * bmi + 0.23 * a - 10.8 * (sex === "男" ? 1 : 0) - 5.4;
     let bfNavy = null;
-    if (sex === "男" && wc > 0 && nc > 0 && wc > nc) {
-      bfNavy = 495 / (1.0324 - 0.19077 * Math.log10(wc - nc) + 0.15456 * Math.log10(h)) - 450;
-    } else if (sex === "女" && wc > 0 && hc > 0 && nc > 0 && wc + hc > nc) {
-      bfNavy = 495 / (1.29579 - 0.35004 * Math.log10(wc + hc - nc) + 0.221 * Math.log10(h)) - 450;
+    if (sex === "男" && wc > nc && nc > 0 && h > 0) {
+      const logWn = Math.log10(wc - nc);
+      const logH = Math.log10(h);
+      if (Number.isFinite(logWn) && Number.isFinite(logH)) {
+        bfNavy = 495 / (1.0324 - 0.19077 * logWn + 0.15456 * logH) - 450;
+      }
+    } else if (sex === "女" && wc > 0 && hc > 0 && nc > 0 && wc + hc > nc && h > 0) {
+      const logSum = Math.log10(wc + hc - nc);
+      const logH = Math.log10(h);
+      if (Number.isFinite(logSum) && Number.isFinite(logH)) {
+        bfNavy = 495 / (1.29579 - 0.35004 * logSum + 0.221 * logH) - 450;
+      }
     }
-    const bodyFat = bfNavy && Number.isFinite(bfNavy) ? bfNavy : bfByBmi;
+    const navyOk = bfNavy !== null && Number.isFinite(bfNavy) && bfNavy > 3 && bfNavy < 55;
+    const bodyFat = clamp(navyOk ? bfNavy : bfByBmi, 5, 50);
 
-    // 6) 去脂体重与FFMI：帮助用户理解“体重变化里有多少是肌肉潜力相关”。
+    // 6) LBM（去脂体重 Lean Body Mass）与 FFMI（去脂体重指数 Fat-Free Mass Index）：用于粗略衡量肌肉量相对身高的水平。
     const lbm = w * (1 - bodyFat / 100);
     const ffmi = lbm / Math.pow(h / 100, 2);
 
@@ -134,61 +156,71 @@
     const targetMin = 18.5 * Math.pow(h / 100, 2);
     const targetMax = 23.9 * Math.pow(h / 100, 2);
 
-    // 8) 1RM（Epley）：力量训练常用指标，估算极限力量以安排训练强度。
-    const oneRm = lw > 0 && lr > 0 ? lw * (1 + lr / 30) : 0;
+    // 8) 1RM（单次最大重复重量估算 One-Rep Max estimate）：Epley 经验公式 w×(1+r/30)；次数 r>30 时按 r=30 封顶，避免高次数外推失真。
+    const oneRm = lw > 0 && lr > 0 ? lw * (1 + Math.min(lr, 30) / 30) : 0;
 
-    // 9) 饮水建议：按体重估算，再加训练额外补水，实操价值高。
+    // 9) 饮水建议：按体重估算基础量，再按目标略加上训练补水（非精确医学饮水量）。
     const waterBase = w * 35;
     const waterTrain = g === "增肌" ? 600 : 400;
     const waterMl = waterBase + waterTrain;
 
-    // 10) 跑步配速：距离 + 用时直接算配速，适合有氧用户。
+    // 10) 配速：总用时(分钟) / 距离(km) = 每公里分钟数，再换算成分秒展示。
     const paceMin = rd > 0 && rm > 0 ? rm / rd : 0;
-    const paceText = paceMin > 0 ? `${Math.floor(paceMin)}分${Math.round((paceMin % 1) * 60)}秒/公里` : "-";
+    let paceText = "-";
+    if (paceMin > 0) {
+      const whole = Math.floor(paceMin);
+      let sec = Math.round((paceMin - whole) * 60);
+      if (sec === 60) {
+        sec = 0;
+      }
+      paceText = `${whole}分${sec}秒/公里`;
+    }
 
     if (calcLoading) calcLoading.hidden = false;
     if (resultStage) resultStage.hidden = true;
     setActiveStep("calc");
 
+    const bfNote = navyOk ? "Navy（美国海军围度法）" : "经验回归（参考）";
     calcResult.innerHTML = `
-      <div class="metric"><b>BMI</b><span>${bmi.toFixed(1)}（${bmiLevel}）</span></div>
-      <div class="metric"><b>BMR</b><span>${bmr.toFixed(0)} kcal</span></div>
-      <div class="metric"><b>TDEE</b><span>${tdee.toFixed(0)} kcal</span></div>
-      <div class="metric"><b>目标热量</b><span>${k.toFixed(0)} kcal</span></div>
-      <div class="metric"><b>蛋白质</b><span>${p.toFixed(1)} g</span></div>
-      <div class="metric"><b>脂肪</b><span>${f.toFixed(1)} g</span></div>
-      <div class="metric"><b>碳水</b><span>${c.toFixed(1)} g</span></div>
-      <div class="metric"><b>体脂率估算</b><span>${bodyFat.toFixed(1)}%</span></div>
-      <div class="metric"><b>去脂体重</b><span>${lbm.toFixed(1)} kg</span></div>
-      <div class="metric"><b>FFMI</b><span>${ffmi.toFixed(1)}</span></div>
-      <div class="metric"><b>健康体重区间</b><span>${targetMin.toFixed(1)} - ${targetMax.toFixed(1)} kg</span></div>
-      <div class="metric"><b>1RM 估算</b><span>${oneRm ? oneRm.toFixed(1) + " kg" : "-"}</span></div>
-      <div class="metric"><b>饮水建议</b><span>${(waterMl / 1000).toFixed(2)} L/天</span></div>
-      <div class="metric"><b>跑步配速</b><span>${paceText}</span></div>
+      <div class="metric"><b>BMI（身体质量指数）</b><span>${bmi.toFixed(1)}（${bmiLevel}）</span></div>
+      <div class="metric"><b>BMR（基础代谢率）</b><span>${bmr.toFixed(0)} kcal（千卡）</span></div>
+      <div class="metric"><b>TDEE（每日总消耗）</b><span>${tdee.toFixed(0)} kcal（千卡）</span></div>
+      <div class="metric"><b>目标热量</b><span>${k.toFixed(0)} kcal（千卡）</span></div>
+      <div class="metric"><b>蛋白质</b><span>${p.toFixed(1)} g（克）</span></div>
+      <div class="metric"><b>脂肪</b><span>${f.toFixed(1)} g（克）</span></div>
+      <div class="metric"><b>碳水</b><span>${c.toFixed(1)} g（克）</span></div>
+      <div class="metric"><b>体脂率估算</b><span>${bodyFat.toFixed(1)}%（${bfNote}）</span></div>
+      <div class="metric"><b>LBM（去脂体重）</b><span>${lbm.toFixed(1)} kg（千克）</span></div>
+      <div class="metric"><b>FFMI（去脂体重指数）</b><span>${ffmi.toFixed(1)}</span></div>
+      <div class="metric"><b>健康体重区间（BMI 18.5–23.9）</b><span>${targetMin.toFixed(1)} - ${targetMax.toFixed(1)} kg（千克）</span></div>
+      <div class="metric"><b>1RM（单次最大重量估算）</b><span>${oneRm ? oneRm.toFixed(1) + " kg（千克）" : "-"}</span></div>
+      <div class="metric"><b>饮水建议</b><span>${(waterMl / 1000).toFixed(2)} L（升）/天</span></div>
+      <div class="metric"><b>pace（配速）</b><span>${paceText}</span></div>
+      <div class="metric metric-full"><b>说明</b><span>本页为通用估算，不能替代医学诊断。BMR/TDEE 使用 Mifflin-St Jeor（米夫林–圣乔尔）公式；体脂优先 Navy（美国海军围度法，测量单位 cm），否则为经验回归；营养目标为简化模型；1RM 为 Epley（埃普利）估算，高次数时偏差更大。</span></div>
     `;
     planCards.innerHTML = `
       <div class="plan-card">
         <h3>基础代谢与热量</h3>
-        <p>BMR：${bmr.toFixed(0)} kcal</p>
-        <p>TDEE：${tdee.toFixed(0)} kcal</p>
-        <p>目标热量：${k.toFixed(0)} kcal</p>
+        <p>BMR（基础代谢率）：${bmr.toFixed(0)} kcal（千卡）</p>
+        <p>TDEE（每日总消耗）：${tdee.toFixed(0)} kcal（千卡）</p>
+        <p>目标热量：${k.toFixed(0)} kcal（千卡）</p>
       </div>
       <div class="plan-card">
         <h3>营养分配</h3>
-        <p>蛋白质：${p.toFixed(1)} g</p>
-        <p>脂肪：${f.toFixed(1)} g</p>
-        <p>碳水：${c.toFixed(1)} g</p>
+        <p>蛋白质：${p.toFixed(1)} g（克）</p>
+        <p>脂肪：${f.toFixed(1)} g（克）</p>
+        <p>碳水：${c.toFixed(1)} g（克）</p>
       </div>
       <div class="plan-card">
         <h3>体成分与力量</h3>
-        <p>体脂率：${bodyFat.toFixed(1)}%</p>
-        <p>去脂体重：${lbm.toFixed(1)} kg</p>
-        <p>1RM：${oneRm ? oneRm.toFixed(1) + " kg" : "-"}</p>
+        <p>体脂率：${bodyFat.toFixed(1)}%（${bfNote}）</p>
+        <p>LBM（去脂体重）：${lbm.toFixed(1)} kg（千克）</p>
+        <p>1RM（单次最大重量估算）：${oneRm ? oneRm.toFixed(1) + " kg（千克）" : "-"}</p>
       </div>
       <div class="plan-card">
         <h3>执行建议</h3>
-        <p>饮水：${(waterMl / 1000).toFixed(2)} L/天</p>
-        <p>有氧配速：${paceText}</p>
+        <p>饮水：${(waterMl / 1000).toFixed(2)} L（升）/天</p>
+        <p>pace（配速）：${paceText}</p>
         <p>睡眠：7-8 小时</p>
       </div>
     `;
@@ -199,11 +231,13 @@
     const tip = `${n}，你现在已经拿到了专属数据，接下来就是把结果做出来。\n\n【训练建议】\n- 你的目标：${goalText}\n- 节奏：${trainFreq}\n- 力量训练保持 3 组 × 8-12 次，组间休息 90-180 秒\n- 有氧每次 20-35 分钟，优先快走/骑行/慢跑\n\n【执行提示】\n- ${progressRule}\n- 每周固定同一天晨起空腹称重，用周均值看趋势\n- 睡眠保持 7-8 小时，饮水约 ${(waterMl / 1000).toFixed(2)} L/天\n\n坚持 14 天，你会先感觉状态更好；坚持 30 天，身体变化会开始变得明显。`;
     advicePanel.textContent = tip;
 
-    window.setTimeout(() => {
+    calcTimer = window.setTimeout(() => {
       if (calcLoading) calcLoading.hidden = true;
       if (resultStage) resultStage.hidden = false;
       setActiveStep("result");
       if (resultStage) resultStage.scrollIntoView({ behavior: "smooth", block: "start" });
+      calcBusy = false;
+      calcTimer = null;
     }, 450);
   }
 
@@ -240,26 +274,23 @@
 
   function initRecipeFilter() {
     const buttons = Array.from(document.querySelectorAll(".tag-btn"));
-    const payTags = Array.from(document.querySelectorAll(".pay-tag"));
     if (!buttons.length) return;
-    payTags.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const filter = btn.dataset.filter || "专题";
-        const id = makeOrderId();
-        setOrderId(id);
-        alert(`你点击了“${filter}”专题。\n该专题完整食谱为付费服务，请先完成支付解锁。\n订单号：${id}`);
-        const pay = document.getElementById("paySection");
-        if (pay) pay.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         buttons.forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
         const filter = btn.dataset.filter || "all";
-        if (filter === "all") return;
+        const cards = Array.from(document.querySelectorAll(".recipe-card"));
+        if (filter === "all") {
+          cards.forEach((c) => {
+            c.style.display = "";
+          });
+          return;
+        }
+        cards.forEach((c) => {
+          const raw = (c.dataset.tags || "").split(",").map((t) => t.trim());
+          c.style.display = raw.includes(filter) ? "" : "none";
+        });
       });
     });
   }
@@ -284,6 +315,9 @@
       detailModal.addEventListener("click", (e) => {
         if (e.target === detailModal) detailModal.hidden = true;
       });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && detailModal && !detailModal.hidden) detailModal.hidden = true;
+      });
     }
   }
 
@@ -295,29 +329,7 @@
     versionDate.textContent = `${d.getFullYear()}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   }
 
-  function setPayStep(step) {
-    if (!payStep1 || !payStep2 || !payStep3) return;
-    payStep1.classList.remove("active");
-    payStep2.classList.remove("active");
-    payStep3.classList.remove("active");
-    if (step === 1) payStep1.classList.add("active");
-    if (step === 2) payStep2.classList.add("active");
-    if (step === 3) payStep3.classList.add("active");
-  }
-
-  function initPackSelection() {
-    const packs = Array.from(document.querySelectorAll(".pack-card"));
-    if (!packs.length) return;
-    packs.forEach((pack) => {
-      pack.addEventListener("click", () => {
-        packs.forEach((p) => p.classList.remove("active"));
-        pack.classList.add("active");
-        if (selectedPack) selectedPack.textContent = pack.dataset.pack || "7天体验版（¥9.9）";
-      });
-    });
-  }
-
-  // 支付方式切换
+  // 支付方式切换（微信 / 支付宝）
   const tabs = Array.from(document.querySelectorAll(".tab"));
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -333,16 +345,16 @@
   $("btnPayNow").addEventListener("click", () => {
     const id = makeOrderId();
     setOrderId(id);
-    setPayStep(2);
-    alert(`订单已创建：${id}\n请使用当前显示的收款码完成支付。支付后点击“我已支付”。`);
+    alert(`订单号：${id}\n请用当前方式扫码支付 ¥9.9。支付后点击「我已支付」生成发给客服的文案。`);
   });
   $("btnPaid").addEventListener("click", () => {
     const id = getOrderId();
-    const packText = selectedPack ? selectedPack.textContent : "7天体验版（¥9.9）";
-    const script = `你好吃人陈，我已支付【${packText}】。\n订单号：${id}\n昵称：${nickname.value || "未填写"}\n请接收截图并安排交付，谢谢。`;
+    const packText = selectedPack && selectedPack.textContent.trim()
+      ? selectedPack.textContent.trim()
+      : "¥9.9 定制咨询服务";
+    const script = `你好吃人陈，我已支付【${packText}】。\n订单号：${id}\n昵称：${nickname.value || "未填写"}\n已附支付截图，请安排咨询对接，谢谢。`;
     if (payScript) payScript.textContent = script;
-    setPayStep(3);
-    alert(`已支付后加微信并发截图。\n微信：${wechat}\n请同时发送：订单号 ${id} + 昵称。`);
+    alert(`请加微信并发送截图与订单信息。\n微信：${wechat}\n内容：订单号 ${id} + 昵称。`);
   });
 
   $("btnCopyOrder").addEventListener("click", async () => {
@@ -358,8 +370,8 @@
   if (btnCopyScript) {
     btnCopyScript.addEventListener("click", async () => {
       const script = (payScript ? payScript.textContent : "").trim();
-      if (!script || script.includes("点击“我已支付”后生成发送文案")) {
-        alert("请先点击“我已支付”生成客服话术。");
+      if (!script || script.includes("支付完成后点击")) {
+        alert("请先点击「我已支付」生成发给客服的文案。");
         return;
       }
       try {
@@ -381,9 +393,7 @@
   initChecklist();
   initRecipeFilter();
   initDetailModal();
-  initPackSelection();
   setTodayForVersion();
   setActiveStep("fill");
-  setPayStep(1);
 })();
 

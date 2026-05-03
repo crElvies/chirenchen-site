@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=2.4.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.6.0" />
 </head>
 <body>
   <div class="topbar">
@@ -18,10 +18,10 @@
     <section class="hero">
       <div class="hero-main">
         <h1>你的专属健身计划，从今天开始</h1>
-        <p>输入个人数据，立刻得到可执行的热量、营养、训练建议。先免费体验，再决定是否升级。</p>
+        <p>输入个人数据，立刻得到可执行的热量、营养、训练建议。页面功能均可免费使用。</p>
         <div class="actions">
           <a class="btn primary" href="#userForm">立即开始计算</a>
-          <a class="btn" href="#paySection">查看进阶服务</a>
+          <a class="hero-optional-link" href="#paySection">可选：¥9.9 定制咨询</a>
         </div>
       </div>
       <div class="hero-side">
@@ -84,7 +84,7 @@
         <div id="planCards" class="plan-grid"></div>
         <div id="advicePanel" class="advice-panel">点击“生成我的结果”后，查看训练建议与执行提示。</div>
         <div class="actions">
-          <a class="btn primary" href="#paySection">解锁 7 天进阶方案</a>
+          <a class="btn" href="#paySection">如需人工把关：¥9.9 定制咨询</a>
         </div>
       </div>
     </section>
@@ -94,16 +94,16 @@
       <div class="route-grid">
         <div class="route-card">
           <h3>每周 3 天（新手）</h3>
-          <p>Mon：全身（深蹲/俯卧撑/划船/核心）</p>
-          <p>Wed：上肢（推/拉/肩）</p>
-          <p>Fri：下肢（深蹲/硬拉/弓步）</p>
+          <p>Mon（星期一）：全身（深蹲/俯卧撑/划船/核心）</p>
+          <p>Wed（星期三）：上肢（推/拉/肩）</p>
+          <p>Fri（星期五）：下肢（深蹲/硬拉/弓步）</p>
         </div>
         <div class="route-card">
           <h3>每周 4 天（进阶）</h3>
-          <p>Mon：上肢推</p>
-          <p>Tue：下肢</p>
-          <p>Thu：上肢拉</p>
-          <p>Sat：全身与核心</p>
+          <p>Mon（星期一）：上肢推</p>
+          <p>Tue（星期二）：下肢</p>
+          <p>Thu（星期四）：上肢拉</p>
+          <p>Sat（星期六）：全身与核心</p>
         </div>
         <div class="route-card">
           <h3>恢复安排</h3>
@@ -118,10 +118,10 @@
       <h2>02｜健康食谱</h2>
       <div class="tag-filters">
         <button class="tag-btn active" data-filter="all">全部</button>
-        <button class="tag-btn pay-tag" data-filter="增肌">增肌</button>
-        <button class="tag-btn pay-tag" data-filter="减脂">减脂</button>
-        <button class="tag-btn pay-tag" data-filter="高蛋白">高蛋白</button>
-        <button class="tag-btn pay-tag" data-filter="低预算">低预算</button>
+        <button class="tag-btn" data-filter="增肌">增肌</button>
+        <button class="tag-btn" data-filter="减脂">减脂</button>
+        <button class="tag-btn" data-filter="高蛋白">高蛋白</button>
+        <button class="tag-btn" data-filter="低预算">低预算</button>
       </div>
       <div class="info-grid">
         <article class="info-card recipe-card" data-tags="增肌,高蛋白,低预算">
@@ -190,29 +190,13 @@
       </div>
     </section>
 
-    <section class="card" id="paySection">
-      <h2>升级服务（付费）</h2>
-      <div class="flow-steps">
-        <div class="flow-step active" id="payStep1">1 选择方案</div>
-        <div class="flow-step" id="payStep2">2 扫码支付</div>
-        <div class="flow-step" id="payStep3">3 提交凭证</div>
-      </div>
-      <div class="plan-packs">
-        <button class="pack-card active" data-pack="7天体验版（¥9.9）">
-          <b>7天体验版（¥9.9）</b>
-          <span>适合第一次执行，快速入门</span>
-        </button>
-        <button class="pack-card" data-pack="30天进阶版（¥39.9）">
-          <b>30天进阶版（¥39.9）</b>
-          <span>适合追求明显体型变化</span>
-        </button>
-      </div>
-      <div class="order-box">
-        <div><b>当前选择：</b><span id="selectedPack">7天体验版（¥9.9）</span></div>
-      </div>
+    <section class="card pay-lite" id="paySection">
+      <h2 class="pay-lite-title">可选 · ¥9.9 定制咨询</h2>
+      <p class="pay-lite-desc">若你希望有人根据计算器结果与生活习惯，帮你把执行顺序和注意点捋一遍，可自愿选择本项。不涉及医疗诊断；与页面免费内容互补。</p>
+      <span id="selectedPack" hidden>¥9.9 定制咨询服务</span>
       <div class="pay-tabs">
-        <button class="tab active" data-pay="wx">微信支付</button>
-        <button class="tab" data-pay="ali">支付宝</button>
+        <button type="button" class="tab active" data-pay="wx">微信支付</button>
+        <button type="button" class="tab" data-pay="ali">支付宝</button>
       </div>
       <div id="pay-wx" class="pay-panel active">
         <img src="./assets/img/wechat-pay.png" alt="微信收款码" />
@@ -220,27 +204,27 @@
       <div id="pay-ali" class="pay-panel">
         <img src="./assets/img/alipay-pay.png" alt="支付宝收款码" />
       </div>
-      <div class="order-box">
-        <div><b>当前订单编号：</b><span id="orderId">-</span></div>
+      <div class="order-box order-box-soft">
+        <div><b>订单编号（对账用）：</b><span id="orderId">-</span></div>
       </div>
-      <div class="order-box">
-        <div><b>提交给客服的话术（自动生成）：</b></div>
-        <div id="payScript" class="muted">点击“我已支付”后生成发送文案。</div>
+      <div class="order-box order-box-soft">
+        <div><b>发给客服的文案（支付后点「我已支付」自动生成）：</b></div>
+        <div id="payScript" class="muted">支付完成后点击「我已支付」生成。</div>
         <div class="actions">
-          <button id="btnCopyScript" class="btn">复制客服话术</button>
+          <button type="button" id="btnCopyScript" class="btn">复制文案</button>
           <span id="copyScriptStatus" class="copy-status"></span>
         </div>
       </div>
-      <div class="actions">
-        <button id="btnPayNow" class="btn primary">立即支付（扫码）</button>
-        <button id="btnPaid" class="btn">我已支付</button>
-        <button id="btnCopyOrder" class="btn">复制订单号</button>
+      <div class="actions pay-lite-actions">
+        <button type="button" id="btnPayNow" class="btn">扫码支付 ¥9.9</button>
+        <button type="button" id="btnPaid" class="btn">我已支付</button>
+        <button type="button" id="btnCopyOrder" class="btn">复制订单号</button>
       </div>
     </section>
 
     <section class="card">
       <h2>版本信息</h2>
-      <p><b>版本号：</b>v2.4.0</p>
+      <p><b>版本号：</b>v2.6.0</p>
       <p><b>更新时间：</b><span id="versionDate">-</span></p>
     </section>
   </main>
@@ -255,7 +239,7 @@
     </div>
   </div>
 
-  <script src="./assets/app.js?v=2.4.0"></script>
+  <script src="./assets/app.js?v=2.6.0"></script>
 </body>
 </html>
 
