@@ -3,8 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <!-- 降低手机浏览器强缓存首页导致的「电脑已更新、手机仍旧版」：每次发版请同步提高下方 ?v= 版本号 -->
+  <meta http-equiv="Cache-Control" content="max-age=0, must-revalidate, no-cache" />
+  <meta http-equiv="Pragma" content="no-cache" />
   <title>吃人陈｜健身饮食交互中心</title>
-  <link rel="stylesheet" href="./assets/styles.css?v=2.6.0" />
+  <link rel="stylesheet" href="./assets/styles.css?v=2.7.0" />
 </head>
 <body>
   <div class="topbar">
@@ -224,8 +227,9 @@
 
     <section class="card">
       <h2>版本信息</h2>
-      <p><b>版本号：</b>v2.6.0</p>
+      <p><b>版本号：</b>v2.7.0</p>
       <p><b>更新时间：</b><span id="versionDate">-</span></p>
+      <p class="cache-hint">若手机与电脑显示不一致：先<strong>下拉刷新</strong>本页；仍不对请在浏览器设置中<strong>清除本站数据</strong>后重新打开。</p>
     </section>
   </main>
 
@@ -239,7 +243,7 @@
     </div>
   </div>
 
-  <script src="./assets/app.js?v=2.6.0"></script>
+  <script src="./assets/app.js?v=2.7.0"></script>
 </body>
 </html>
 
